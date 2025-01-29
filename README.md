@@ -1,10 +1,10 @@
 # RottenBanana
 
-Express
-npm i express
-npm i nodemon --save-dev
-npm i cors --save-dev
-npm i axios --save-dev
+Express <br/>
+npm i express <br/>
+npm i nodemon --save-dev <br/>
+npm i cors --save-dev <br/>
+npm i axios --save-dev <br/>
 
-Next
-npm i
+Next <br/>
+npm i\ <br/>
