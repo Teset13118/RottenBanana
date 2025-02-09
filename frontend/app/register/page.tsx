@@ -8,7 +8,7 @@ export default function Register () {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>(""); 
-  const [errorMessage, setErrorMessage] = useState<string>(""); // For error handling
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -23,7 +23,7 @@ export default function Register () {
     try {
       const response = await axios.post('http://localhost:8080/api/auth/register', { username, email, password, confirmPassword });
       if (response.status === 201) {
-        router.push("/login");  // Redirect to login page after successful registration
+        router.push("/login");
       }
     } catch (error: any) {
       setErrorMessage(error?.response?.data?.message || "Registration failed, please try again.");
@@ -32,6 +32,7 @@ export default function Register () {
 
   return (
     <div>
+      <a href="/">home</a>
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
         <input

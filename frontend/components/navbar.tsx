@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [user, setUser] = useState<any>(null); // For storing user info
@@ -11,8 +10,7 @@ export default function Navbar() {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchUser = async () => {
+  const fetchUser = async () => {
       try {
         const token = localStorage.getItem('token');
         if (token) {
@@ -27,6 +25,7 @@ export default function Navbar() {
         setUser(null);
       }
     };
+  useEffect(() => {
     fetchUser();
   }, []);
 
@@ -80,10 +79,3 @@ export default function Navbar() {
     </nav>
   );
 };
-
-// export default function NavbarWrapper() {
-//   const pathname = usePathname();
-//   const hideNavbar = pathname === "/login" || pathname === "/register";
-
-//   return hideNavbar ? null : <Navbar />;
-// }

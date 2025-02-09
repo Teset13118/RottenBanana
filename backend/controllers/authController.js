@@ -20,11 +20,11 @@ const User = require("../models/User");
   // Login
   exports.login = async (req, res) => {
     try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email });
+      const { username, password } = req.body;
+      const user = await User.findOne({ username });
   
       if (!user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(400).json({ message: "Invalid credentials" });
+        return res.status(400).json({ message: "Wrong Username or Password" });
       }
   
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });

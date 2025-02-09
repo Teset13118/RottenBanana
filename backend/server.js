@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
+const commentRoutes = require("./routes/CommentRoutes");
 const bodyParser = require('body-parser');
 
 require("dotenv").config();
@@ -14,6 +15,8 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use("/api/auth", authRoutes);
+app.use("/api/comment", commentRoutes);
+
 
 
 app.get('/api/anime/season/now', async (req, res) => {

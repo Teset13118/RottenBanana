@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
+export default function Login() {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
@@ -13,12 +13,10 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/login', { email, password });
+      const response = await axios.post('http://localhost:8080/api/auth/login', { username, password });
       if (response.status === 200) {
-        // Store the token in localStorage
         localStorage.setItem('token', response.data.token);
         
-        // Redirect to home page or dashboard
         router.push('/');
       }
     } catch (error: any) {
@@ -28,13 +26,14 @@ const Login = () => {
 
   return (
     <div>
+      <a href="/">home</a>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <input
@@ -50,5 +49,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;
