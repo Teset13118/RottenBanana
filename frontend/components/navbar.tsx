@@ -14,6 +14,7 @@ export default function Navbar() {
       try {
         const token = localStorage.getItem('token');
         if (token) {
+          console.log(token);
           const response = await axios.get('http://localhost:8080/api/auth/profile', {
             headers: { Authorization: `Bearer ${token}` },
           });

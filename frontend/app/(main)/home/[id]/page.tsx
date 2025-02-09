@@ -49,6 +49,7 @@ function CommentList() {
   interface Comment {
     _id : string;
     userId: {
+      _id: string;
       username: string;
     };
     animeId: string;
@@ -73,6 +74,8 @@ function CommentList() {
       {comments.length > 0 ? (
         comments.map((comment) => (
           <div key = {comment._id} style={{ border: "1px solid #ddd", padding: "10px", marginBottom: "10px" }}>
+            <p>Comment ID:{comment._id}</p>
+            <p>User ID: {comment.userId._id}</p>
             <p><strong>User:</strong> {comment.userId.username || "Anonymous"}</p>
             <p><strong>Score:</strong> {comment.score}/5</p>
             <p>{comment.text}</p>
@@ -88,7 +91,7 @@ function CommentList() {
 function PostComment(){
   const { id: animeId } = useParams();
   const [text, setText] = useState<string>("");
-  const [score, setScore] = useState<number>(5);
+  const [score, setScore] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   useEffect(() => {
