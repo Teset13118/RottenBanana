@@ -3,7 +3,7 @@ const Comment = require("../models/Comment");
 exports.getCommentList = async (req, res) => {
   try {
     const { id } = req.params;
-    const commentList = await Comment.find({ animeId: id }).populate("userId", "username");
+    const commentList = await Comment.find({ animeId: id }).populate("userId", "username").sort({ createdAt: -1 });;
     res.json(commentList);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -58,3 +58,18 @@ const User = require("../models/User");
       res.status(500).json({ error: error.message });
     }
   };
+
+  //otherprofile
+  exports.getOtherUserProfile = async (req, res) => {
+    try {
+      const { userId } = req.params; // รับ userId จาก URL
+      const user = await User.findById(userId).select("-password"); // ไม่ส่งค่า password กลับไป
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+  

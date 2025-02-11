@@ -23,8 +23,6 @@ function AnimeInfo() {
         .catch((err) => console.error('Error fetching anime info:', err));
   }, [id]);
 
-  console.log(anime)
-
   return (
       <div>
         <p>{id ? `Anime ID: ${id}` : "No ID found"}</p>
@@ -43,11 +41,37 @@ function AnimeInfo() {
       </div>
     );
   }
-  
+
+async function updateComment(commentId: string, text: string, score: number) {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.put(`http://localhost:8080/api/comment/updateComment/${commentId}`,
+      { text, score },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return res.data;
+  } catch (error) {
+    console.error("Error updating comment:", error);
+    throw error;
+  }
+};
+
+async function deleteComment(commentId: string){
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.delete(`http://localhost:8080/api/comment/deleteComment/${commentId}`, 
+      { headers: { Authorization: `Bearer ${token}` }}
+    );
+    return res.data;
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    throw error;
+  }
+};
 
 function CommentList() {
   interface Comment {
-    _id : string;
+    _id: string;
     userId: {
       _id: string;
       username: string;
@@ -58,27 +82,99 @@ function CommentList() {
     createdAt: string;
     updatedAt: string;
   }
+
   const { id } = useParams();
   const [comments, setComments] = useState<Comment[]>([]);
+  const [editingComment, setEditingComment] = useState<string | null>(null);
+  const [editText, setEditText] = useState<string>("");
+  const [editScore, setEditScore] = useState<number>(0);
+  const [userId, setUserId] = useState<string | null>(null);
   
   useEffect(() => {
     fetch(`http://localhost:8080/api/comment/getCommentList/${id}`)
-      .then((res) => res.json())
-      .then((data) => setComments(data))
-      .catch((err) => console.error('Error fetching anime info:', err));
-  }, []);
+    .then((res) => res.json())
+    .then((data) => setComments(data))
+    .catch((err) => console.error('Error fetching anime info:', err));
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT
+      setUserId(decodedToken.id);
+    }
+  });
+
+  const handleEdit = (comment: Comment) => {
+    setEditingComment(comment._id);
+    setEditText(comment.text);
+    setEditScore(comment.score);
+  };
+
+  const handleUpdate = async (commentId: string) => {
+    try {
+      await updateComment(commentId, editText, editScore);
+      setEditingComment(null);
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
+  };
+
+  const handleDelete = async (commentId: string) => {
+    try {
+      await deleteComment(commentId);
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
 
   return (
     <div>
       <h2>Comments</h2>
       {comments.length > 0 ? (
         comments.map((comment) => (
-          <div key = {comment._id} style={{ border: "1px solid #ddd", padding: "10px", marginBottom: "10px" }}>
-            <p>Comment ID:{comment._id}</p>
+          <div
+            key={comment._id}
+            style={{ border: "1px solid #ddd", padding: "10px", marginBottom: "10px" }}
+          >
+            <p>Comment ID: {comment._id}</p>
             <p>User ID: {comment.userId._id}</p>
-            <p><strong>User:</strong> {comment.userId.username || "Anonymous"}</p>
-            <p><strong>Score:</strong> {comment.score}/5</p>
+            <p>
+              <strong>User:</strong> {comment.userId.username || "Anonymous"}
+            </p>
+            <p>
+              <strong>Score:</strong> {comment.score}/5
+            </p>
             <p>{comment.text}</p>
+            <a href={`/profile/${comment.userId._id}`}>profile</a>
+
+            {/* ปุ่ม Edit & Delete เฉพาะเจ้าของคอมเมนต์ */}
+            {userId === comment.userId._id && (
+              <div>
+                {editingComment === comment._id ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editText}
+                      onChange={(e) => setEditText(e.target.value)}
+                      placeholder="Edit comment"
+                    />
+                    <input
+                      type="number"
+                      value={editScore}
+                      onChange={(e) => setEditScore(Number(e.target.value))}
+                      min="0"
+                      max="5"
+                    />
+                    <button onClick={() => handleUpdate(comment._id)}>Save</button>
+                    <button onClick={() => setEditingComment(null)}>Cancel</button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => handleEdit(comment)}>Edit</button>
+                    <button onClick={() => handleDelete(comment._id)}>Delete</button>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         ))
       ) : (
@@ -110,8 +206,7 @@ function PostComment(){
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/comment/postComment",
+      const response = await axios.post("http://localhost:8080/api/comment/postComment",
         { animeId, text, score },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -119,7 +214,7 @@ function PostComment(){
       if (response.status === 201) {
         alert("Comment posted successfully!");
         setText("");
-        setScore(5);
+        setScore(0);
       }
     } catch (error: any) {
       setErrorMessage(error?.response?.data?.message || "Failed to post comment.");
