@@ -21,7 +21,9 @@ export default function Register () {
     setErrorMessage("");
 
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/register', { username, email, password, confirmPassword });
+      const response = await axios.post('http://localhost:8080/api/auth/register', 
+        { username, email, password, confirmPassword }
+      );
       if (response.status === 201) {
         router.push("/login");
       }

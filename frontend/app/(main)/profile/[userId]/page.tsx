@@ -2,29 +2,29 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
+import { fetchOtherUserProfile } from '@/lib/userApi'; 
 
 export default function OtherUserProfile() {
-  const { userId } = useParams(); // ดึง userId จาก URL
+  const { userId } = useParams() as {userId:string}; // ดึง userId จาก URL
   const [user, setUser] = useState<any>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    const fetchUser = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/auth/profile/${userId}`
-        );
-        setUser(response.data);
+        const data = await fetchOtherUserProfile(userId);
+        setUser(data);
       } catch (err) {
         setError("User not found");
       }
     };
-
-    if (userId) fetchUserProfile();
+    fetchUser();
   }, [userId]);
 
   if (error) return <div>{error}</div>;
-  if (!user) return <div>Loading...</div>;
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>

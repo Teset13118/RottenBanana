@@ -1,12 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import {  User }  from '@/types/type';
+import { fetchUserProfile } from '@/lib/userApi'; 
 
-type User = {
-  _id: number;
-  username: string;
-  email: string;
-};
 
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
@@ -14,11 +11,8 @@ export default function Profile() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:8080/api/auth/profile', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUser(response.data);
+        const data = await fetchUserProfile() 
+        setUser(data);
       } catch (error) {
         console.error('Error fetching user profile:', error);
       }

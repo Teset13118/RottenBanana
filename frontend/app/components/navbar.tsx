@@ -3,42 +3,32 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import {  User }  from '@/types/type';
+import { fetchUserProfile, LogoutUser } from '@/lib/userApi'; 
 
 export default function Navbar() {
-  const [user, setUser] = useState<any>(null); // For storing user info
+  const [user, setUser] = useState<User | null>(null); // For storing user info
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // For tracking login status
   const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();
 
-  const fetchUser = async () => {
+  useEffect(() => {
+    const fetchUser = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (token) {
-          console.log(token);
-          const response = await axios.get('http://localhost:8080/api/auth/profile', {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setUser(response.data);
-          setIsLoggedIn(true);
-        }
+        const data = await fetchUserProfile();
+        setUser(data);
+        setIsLoggedIn(true);
       } catch (error) {
         setIsLoggedIn(false);
         setUser(null);
       }
     };
-  useEffect(() => {
     fetchUser();
   }, []);
 
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem('token');
-      await axios.post(
-        'http://localhost:8080/api/auth/logout',
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      localStorage.removeItem('token');
+      await LogoutUser()
       setIsLoggedIn(false);
       setUser(null);
       router.push('/');
