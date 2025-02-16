@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const moment = require("moment-timezone");
 
-const CommentSchema = new mongoose.Schema(
+const ReviewSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     animeId: { type: String, required: true},
@@ -12,7 +12,7 @@ const CommentSchema = new mongoose.Schema(
 );
 
 // ใช้ moment-timezone เพื่อเปลี่ยนเวลาเป็น Bangkok
-CommentSchema.pre('save', function (next) {
+ReviewSchema.pre('save', function (next) {
   if (this.isNew) {
     const now = moment.tz("Asia/Bangkok").toDate();
     this.createdAt = now;
@@ -23,4 +23,4 @@ CommentSchema.pre('save', function (next) {
   next();
 });
 
-module.exports = mongoose.model("Comment", CommentSchema);
+module.exports = mongoose.model("Review", ReviewSchema);

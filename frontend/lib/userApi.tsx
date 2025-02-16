@@ -3,6 +3,7 @@ import axios from 'axios';
 export async function fetchUserProfile() {
     try {
         const token = localStorage.getItem('token');
+         if (!token) return null;
         const res = await axios.get('http://localhost:8080/api/auth/profile', 
             { headers: { Authorization: `Bearer ${token}` }}
         );

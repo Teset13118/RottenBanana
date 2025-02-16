@@ -16,8 +16,10 @@ export default function Navbar() {
     const fetchUser = async () => {
       try {
         const data = await fetchUserProfile();
-        setUser(data);
-        setIsLoggedIn(true);
+        if (data){
+          setUser(data);
+          setIsLoggedIn(true);
+        }
       } catch (error) {
         setIsLoggedIn(false);
         setUser(null);

@@ -4,7 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
-const commentRoutes = require("./routes/CommentRoutes");
+const reviewRoutes = require("./routes/ReviewRoutes");
 const bodyParser = require('body-parser');
 
 require("dotenv").config();
@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use("/api/auth", authRoutes);
-app.use("/api/comment", commentRoutes);
+app.use("/api/review", reviewRoutes);
 
 
 
@@ -24,7 +24,7 @@ app.get('/api/anime/season/now', async (req, res) => {
     const response = await axios.get('https://api.jikan.moe/v4/seasons/now?limit=3');
     res.json(response.data.data);
   } catch (error) {
-    console.error('Error fetching data from Jikan API:', error.message);
+    console.error('Error fetching data from Jikan API ayo:', error.message);
     res.status(500).json({ error: 'Failed to fetch data from Jikan API' });
   }
 });

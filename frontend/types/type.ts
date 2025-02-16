@@ -8,7 +8,7 @@ export interface Anime {
     };
   }
 
-export interface Comment {
+export interface Review {
     _id: string;
     userId: {
       _id: string;

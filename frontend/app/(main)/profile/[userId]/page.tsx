@@ -3,6 +3,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { fetchOtherUserProfile } from '@/lib/userApi'; 
+import moment from "moment-timezone";
+import {  Anime, User, Review }  from '@/types/type';
+import { FetchUserReview } from '@/lib/reviewApi';
+import { FetchAnime } from '@/lib/animeApi';
+
 
 export default function OtherUserProfile() {
   const { userId } = useParams() as {userId:string}; // ดึง userId จาก URL
@@ -28,9 +33,83 @@ export default function OtherUserProfile() {
 
   return (
     <div>
-      <h1>Profile of {user.username}</h1>
-      <p>Email: {user.email}</p>
-      <p>Joined: {new Date(user.createdAt).toLocaleDateString()}</p>
+      <div>
+        <h1>Profile of {user.username}</h1>
+        <p>Email: {user.email}</p>
+        <p>Joined: {new Date(user.createdAt).toLocaleDateString()}</p>
+      </div>
+      <div>
+        <OtherUserReviews/>
+      </div>
     </div>
   );
 }
+
+function OtherUserReviews() {
+  const { userId } = useParams() as { userId:string };
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [animeList, setAnimeList] = useState<{ [key: string]: Anime }>({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const reviewData: Review[] = await FetchUserReview(userId);
+        setReviews(reviewData);
+
+        // Fetch anime details for each review
+        const animeData: { [key: string]: Anime } = {};
+        await Promise.all(
+          reviewData.map(async (review) => {
+            if (review.animeId && !animeData[review.animeId]) {
+              try {
+                const anime = await FetchAnime(review.animeId);
+                animeData[review.animeId] = anime;
+              } catch (error) {
+                console.error("Error fetching anime:", error);
+              }
+            }
+          })
+        );
+        setAnimeList(animeData);
+      } catch (error) {
+        console.error("Error fetching user profile or reviews:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+    return(
+    <div>
+      <h2>All your Reviews</h2>
+      {reviews.length > 0 ? (
+        reviews.map((review) => {
+          const anime = animeList[review.animeId];
+          const createdAt = moment(review.createdAt).tz("Asia/Bangkok").format("YYYY-MM-DD HH:mm:ss");
+          const updatedAt = moment(review.updatedAt).tz("Asia/Bangkok").format("YYYY-MM-DD HH:mm:ss");
+
+          return (
+
+            <div key={review._id} style={{ border: "1px solid #ddd", padding: "10px", marginBottom: "10px" }}>
+              <a href={`/home/${review.animeId}`}>go to</a>
+              <h3>{anime ? anime.title : "Loading..."}</h3>
+              <p>Review ID: {review._id}</p>
+              <p>User ID: {review.userId._id}</p>
+              <p>
+                <strong>User:</strong> {review.userId.username || "Anonymous"}
+              </p>
+              <p>
+                <strong>Score:</strong> {review.score}/5
+              </p>
+              <p>{review.text}</p>
+              <p><strong>Created At:</strong> {createdAt}</p>  {/* เพิ่มแสดงเวลา createdAt */}
+              <p><strong>Updated At:</strong> {updatedAt}</p>  {/* เพิ่มแสดงเวลา updatedAt */}
+            </div>
+          );
+        })
+      ) : (
+        <p>No reviews yet.</p>
+      )}
+    </div>
+  );
+};
