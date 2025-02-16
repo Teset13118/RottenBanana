@@ -44,7 +44,7 @@ function AnimeInfo() {
     );
   }
 
-function PostReview({ fetchData }: { fetchData: () => void }){
+function PostReview({ fetchData, hasReviewed }: { fetchData: () => void; hasReviewed: boolean }){
     const { id: animeId } = useParams() as {id:string};
     const [text, setText] = useState<string>("");
     const [score, setScore] = useState<number>(0);
@@ -82,29 +82,33 @@ function PostReview({ fetchData }: { fetchData: () => void }){
       <div>
         <h2>Post a Review</h2>
         {isAuthenticated ? (
-          <form onSubmit={handleSubmit}>
-            <textarea
-              placeholder="Write your review..."
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              required
-            />
-            <div>
-              <p>Select your rating:</p>
-              <div style={{ display: "flex", gap: "5px" }}>
-                {[5, 4, 3, 2, 1].map((num) => (
-                  <img
-                    key={num}
-                    src={`/${num}.png`}
-                    alt={`Rating ${num}`}
-                    style={{ width: "100px", cursor: "pointer", opacity: score === num ? 1 : 0.7 }}
-                    onClick={() => setScore(num)}
-                  />
-                ))}
+          hasReviewed ? (
+            <p style={{ color: "red" }}>You have already posted a review.</p>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <textarea
+                placeholder="Write your review..."
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                required
+              />
+              <div>
+                <p>Select your rating:</p>
+                <div style={{ display: "flex", gap: "5px" }}>
+                  {[5, 4, 3, 2, 1].map((num) => (
+                    <img
+                      key={num}
+                      src={`/${num}.png`}
+                      alt={`Rating ${num}`}
+                      style={{ width: "100px", cursor: "pointer", opacity: score === num ? 1 : 0.7 }}
+                      onClick={() => setScore(num)}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-            <button type="submit">Post Review</button>
-          </form>
+              <button type="submit">Post Review</button>
+            </form>
+          )
         ) : (
           <p style={{ color: "red" }}>You must be logged in to review.</p>
         )}
@@ -120,21 +124,20 @@ function ReviewList() {
   const [editText, setEditText] = useState<string>("");
   const [editScore, setEditScore] = useState<number>(0);
   const [userId, setUserId] = useState<string>("");
+  const [hasReviewed, setHasReviewed] = useState<boolean>(false);
   
   const fetchData = async () => {
     try {
-      const data = await FetchReviewList(id);
-      setReviews(data);
-    } catch (error) {
-      console.error('Error fetching review list:', error);
-    }
-    try{
-      const data = await fetchUserProfile();
-      if(data){
-        setUserId(data._id)
+      const reviewData: Review[] = await FetchReviewList(id);
+      const userData = await fetchUserProfile();
+      setReviews(reviewData);
+
+      if(userData){
+        setUserId(userData._id)
+        setHasReviewed(reviewData.some((review) => review.userId._id === userData._id)); // ตรวจสอบว่า user มี review แล้วหรือไม่
       }
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      console.error('Error fetching review list or user profile:', error);
     }
 
   };
@@ -169,7 +172,7 @@ function ReviewList() {
 
   return (
     <div>
-      <PostReview fetchData={fetchData} />
+      {<PostReview fetchData={fetchData} hasReviewed={hasReviewed}/>}
       <h2>Reviews</h2>
       {reviews.length > 0 ? (
         reviews.map((review) => {
