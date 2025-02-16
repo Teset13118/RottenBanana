@@ -9,11 +9,12 @@ import {  FetchAnime }  from '@/lib/animeApi';
 import { fetchUserProfile } from '@/lib/userApi';
 import { FetchReviewList, updateReview, deleteReview, postReview } from '@/lib/reviewApi';
 
-
+//แสดงรายละเอียดของ anime
 function AnimeInfo() {
   const { id } = useParams() as { id:string };
   const [anime, setAnime] = useState<Anime | null>(null);
 
+  //ดึงข้อมูล anime 
   useEffect(() => {
     const fetchData = async () => {
       try {

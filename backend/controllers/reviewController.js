@@ -11,10 +11,10 @@ exports.getReviewList = async (req, res) => {
 }
 exports.postReview = async (req, res) => {
   try {
-    const { animeId, text, score } = req.body;
+    const { animeId, animeName, text, score } = req.body;
     const userId = req.user.id;
 
-    const newReview = new Review({ userId, animeId, text, score });
+    const newReview = new Review({ userId, animeId, animeName, text, score });
     await newReview.save();
 
     res.status(201).json({ message: "User Review successfully" });
