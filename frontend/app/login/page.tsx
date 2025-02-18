@@ -69,7 +69,7 @@ export default function Login() {
           </form>
           
           
-          <p className="text-xs mt-3 text-center">If you don't have an account? pls <a href="/register" className="text-white underline">Sign up</a></p>
+          <p className="text-xs mt-3 text-center">Don't have an account? <a href="/register" className="text-white underline">Create account</a></p>
         </div>
       </div>
     </section>
