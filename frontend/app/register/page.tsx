@@ -106,7 +106,7 @@ export default function Register () {
           {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
         </form>
         
-        <p className="text-xs mt-3 text-center">If you have an account? pls <a href="/login" className="text-white underline">Login</a></p>
+        <p className="text-xs mt-3 text-center">Already have an account? <a href="/login" className="text-white underline">Log in</a></p>
       </div>
     </div>
     </section>
