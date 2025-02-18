@@ -10,23 +10,7 @@ import { fetchUserProfile } from '@/lib/userApi';
 import { FetchReviewList, updateReview, deleteReview, postReview } from '@/lib/reviewApi';
 
 //แสดงรายละเอียดของ anime
-function AnimeInfo() {
-  const { id } = useParams() as { id:string };
-  const [anime, setAnime] = useState<Anime | null>(null);
-
-  //ดึงข้อมูล anime 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await FetchAnime(id);
-        setAnime(data);
-      } catch (error) {
-        console.error("Error fetching anime:", error);
-      }
-    };
-    fetchData();
-  }, [id]);
-
+function AnimeInfo({ anime }: { anime: Anime | null }) {
   return (
       <div>
         {anime ? (
@@ -45,7 +29,73 @@ function AnimeInfo() {
     );
   }
 
-function PostReview({ fetchData, hasReviewed }: { fetchData: () => void; hasReviewed: boolean }){
+  interface ReviewStatistics {
+    averageScore: number;
+    totalReviews: number;
+    scoreDistribution: {
+      [key: number]: number;
+    };
+    totalScore: number;
+  }
+  
+  // components/ReviewStatistics.tsx
+  const ReviewStatistics = ({ reviews }: { reviews: Review[] }) => {
+    
+    const calculateStatistics = (): ReviewStatistics => {
+      const statistics: ReviewStatistics = {
+        averageScore: 0,
+        totalReviews: reviews.length,
+        scoreDistribution: {
+          1: 0,
+          2: 0,
+          3: 0,
+          4: 0,
+          5: 0
+        },
+        totalScore: 0
+      };
+  
+      if (reviews.length === 0) return statistics;
+  
+      // คำนวณจำนวนของแต่ละคะแนน
+      reviews.forEach(review => {
+        statistics.scoreDistribution[review.score]++;
+        statistics.totalScore += review.score;
+      });
+  
+      // คำนวณค่าเฉลี่ย
+      statistics.averageScore = Number((statistics.totalScore / statistics.totalReviews).toFixed(2));
+  
+      return statistics;
+    };
+  
+    const stats = calculateStatistics();
+  
+    // คำนวณเปอร์เซ็นต์ของแต่ละคะแนน
+    const getPercentage = (count: number): string => {
+      return ((count / stats.totalReviews) * 100).toFixed(1);
+    };
+  
+    return (
+      <div>
+        <h3 className="text-xl font-bold mb-4">Review Statistics</h3>
+        <div className="grid grid-cols-2 gap-4 mb-6">
+            <p className="text-gray-600">Average Score : {stats.averageScore}</p>
+            <p className="text-gray-600">Total Reviews : {stats.totalReviews}</p>
+        </div>
+        <div>
+          {[5, 4, 3, 2, 1].map(score => (
+            <div key={score}>
+              <span>{score} ★</span>
+              <p>{stats.scoreDistribution[score]} ({getPercentage(stats.scoreDistribution[score])}%)</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+function PostReview({ fetchData, hasReviewed, animeTitle }: { fetchData: () => void; hasReviewed: boolean; animeTitle:string }){
     const { id: animeId } = useParams() as {id:string};
     const [text, setText] = useState<string>("");
     const [score, setScore] = useState<number>(0);
@@ -67,7 +117,7 @@ function PostReview({ fetchData, hasReviewed }: { fetchData: () => void; hasRevi
       }
   
       try {
-        const res = await postReview(animeId, text, score)
+        const res = await postReview(animeId, animeTitle, text, score)
         if (res.status === 201) {
           alert("Review posted successfully!");
           setText("");
@@ -118,7 +168,7 @@ function PostReview({ fetchData, hasReviewed }: { fetchData: () => void; hasRevi
     );
   }
 
-function ReviewList() {
+function Reviews({animeTitle} : {animeTitle: string}) {
   const { id } = useParams() as { id:string };
   const [reviews, setReviews] = useState<Review[]>([]);
   const [editingReview, setEditingReview] = useState<string | null>(null);
@@ -173,7 +223,8 @@ function ReviewList() {
 
   return (
     <div>
-      {<PostReview fetchData={fetchData} hasReviewed={hasReviewed}/>}
+      {reviews.length > 0 && <ReviewStatistics reviews={reviews} />}
+      {<PostReview fetchData={fetchData} hasReviewed={hasReviewed} animeTitle={animeTitle}/>}
       <h2>Reviews</h2>
       {reviews.length > 0 ? (
         reviews.map((review) => {
@@ -237,15 +288,34 @@ function ReviewList() {
   );
 }
 
-export default function Info(){
+export default function Info() {
+  const { id } = useParams() as { id: string };
+  const [anime, setAnime] = useState<Anime | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await FetchAnime(id);
+        setAnime(data);
+      } catch (error) {
+        console.error("Error fetching anime:", error);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  if (!anime) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <div>
-        <AnimeInfo/>
+        <AnimeInfo anime={anime} />
       </div>
       <div>
-        <ReviewList/>
+        <Reviews animeTitle={anime.title} />
       </div>
     </>
-  )
+  );
 }

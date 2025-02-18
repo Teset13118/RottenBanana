@@ -5,7 +5,7 @@ const ReviewSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     animeId: { type: String, required: true},
-    animeName: { type: String},
+    animeName: { type: String, required: true},
     text: { type: String, required: true },
     score: { type: Number, required: true},
   },

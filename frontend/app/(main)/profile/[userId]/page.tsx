@@ -48,7 +48,6 @@ export default function OtherUserProfile() {
 function OtherUserReviews() {
   const { userId } = useParams() as { userId:string };
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [animeList, setAnimeList] = useState<{ [key: string]: Anime }>({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,21 +55,6 @@ function OtherUserReviews() {
         const reviewData: Review[] = await FetchUserReview(userId);
         setReviews(reviewData);
 
-        // Fetch anime details for each review
-        const animeData: { [key: string]: Anime } = {};
-        await Promise.all(
-          reviewData.map(async (review) => {
-            if (review.animeId && !animeData[review.animeId]) {
-              try {
-                const anime = await FetchAnime(review.animeId);
-                animeData[review.animeId] = anime;
-              } catch (error) {
-                console.error("Error fetching anime:", error);
-              }
-            }
-          })
-        );
-        setAnimeList(animeData);
       } catch (error) {
         console.error("Error fetching user profile or reviews:", error);
       }
@@ -78,13 +62,13 @@ function OtherUserReviews() {
 
     fetchData();
   }, []);
+  console.log(reviews)
 
     return(
     <div>
       <h2>All your Reviews</h2>
       {reviews.length > 0 ? (
         reviews.map((review) => {
-          const anime = animeList[review.animeId];
           const createdAt = moment(review.createdAt).tz("Asia/Bangkok").format("YYYY-MM-DD HH:mm:ss");
           const updatedAt = moment(review.updatedAt).tz("Asia/Bangkok").format("YYYY-MM-DD HH:mm:ss");
 
@@ -92,7 +76,7 @@ function OtherUserReviews() {
 
             <div key={review._id} style={{ border: "1px solid #ddd", padding: "10px", marginBottom: "10px" }}>
               <a href={`/home/${review.animeId}`}>go to</a>
-              <h3>{anime ? anime.title : "Loading..."}</h3>
+              <h3>{review.animeName}</h3>
               <p>Review ID: {review._id}</p>
               <p>User ID: {review.userId._id}</p>
               <p>
