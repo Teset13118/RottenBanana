@@ -98,14 +98,14 @@ function OtherUserReviews() {
 export default function OtherUserProfile() {
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6 px-5 min-w-80">
-      <div className="w-full max-w-xs lg:max-w-full mx-auto">
-        <h1>Profile</h1>
-        <div className="h-fit rounded-lg bg-gray-300 p-5">
+      <div className="w-full mx-auto">
+        <h1 className="text-2xl font-bold text-center lg:text-end pr-5 pb-2">Profile</h1>
+        <div className="h-[95%] p-5 border-b-2 border-solid border-black lg:border-b-0 lg:border-r-2">
           <OtherUserProfileInfo />
         </div>
       </div>
       <div className='lg:col-span-2'>
-        <h1>Reviews</h1>
+        <h1 className="text-2xl font-bold mt-5 text-center lg:mt-0 lg:text-end pr-5 pb-2">Reviews</h1>
         <div className="max-h-[574px] overflow-y-auto bg-gray-100 p-4 rounded-lg">
           <OtherUserReviews />
         </div>

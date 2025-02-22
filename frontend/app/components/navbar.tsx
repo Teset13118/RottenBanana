@@ -1,7 +1,5 @@
 'use client';
-
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import {  User }  from '@/types/type';
 import { fetchUserProfile, LogoutUser } from '@/lib/userApi'; 
@@ -44,6 +42,9 @@ export default function Navbar() {
       <ul>
         {!isLoggedIn ? (
           <>
+            <li>
+              <a href="/">home</a>
+            </li>
             <li>
               <a href="/login">Login</a>
             </li>

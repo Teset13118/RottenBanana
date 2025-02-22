@@ -230,7 +230,7 @@ function Reviews() {
 
   return (
     <div>
-      {reviews.length > 0 && <ReviewStatistics reviews={reviews} />}
+      {<ReviewStatistics reviews={reviews} />}
       {<PostReview fetchData={fetchData} hasReviewed={hasReviewed} />}
       <h2>Reviews</h2>
       {reviews.length > 0 ? (
