@@ -34,14 +34,14 @@ const User = require("../models/User");
     }
   };
 
-  let blacklistedTokens = [];
-  exports.blacklistedTokens = blacklistedTokens;
+  // let blacklistedTokens = [];
+  // exports.blacklistedTokens = blacklistedTokens;
 
   //logout
   exports.logout = async (req, res) => {
     try {
       const token = req.header("Authorization").split(" ")[1];
-      blacklistedTokens.push(token);  // 👈 Add token to blacklist
+      // blacklistedTokens.push(token);  // 👈 Add token to blacklist
       res.json({ message: "Logged out successfully" });
     } catch (error) {
       res.status(500).json({ error: error.message });

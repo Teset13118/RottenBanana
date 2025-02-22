@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import axios from "axios";
 import { fetchOtherUserProfile } from '@/lib/userApi'; 
 import moment from "moment-timezone";
 import {  Anime, User, Review }  from '@/types/type';
@@ -11,7 +10,7 @@ import { FetchAnime } from '@/lib/animeApi';
 
 export default function OtherUserProfile() {
   const { userId } = useParams() as {userId:string}; // ดึง userId จาก URL
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {

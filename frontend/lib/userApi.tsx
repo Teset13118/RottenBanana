@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function fetchUserProfile() {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
          if (!token) return null;
         const res = await axios.get('http://localhost:8080/api/auth/profile', 
             { headers: { Authorization: `Bearer ${token}` }}
@@ -25,12 +25,12 @@ export async function fetchOtherUserProfile(userId:string) {
 
 export async function LogoutUser() {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         await axios.post('http://localhost:8080/api/auth/logout',
             {},
             { headers: { Authorization: `Bearer ${token}` } }
         );
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
     } catch (error){
         throw error;
     }

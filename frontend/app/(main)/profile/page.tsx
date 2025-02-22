@@ -1,11 +1,10 @@
 'use client';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import moment from "moment-timezone";
-import {  Anime, User, Review }  from '@/types/type';
+
+import {  User, Review }  from '@/types/type';
 import { fetchUserProfile } from '@/lib/userApi'; 
 import { FetchUserReview } from '@/lib/reviewApi';
-import { FetchAnime } from '@/lib/animeApi';
 
 
 export default function Profile() {
@@ -49,7 +48,7 @@ function UserReviews() {
     const fetchData = async () => {
       try {
         const userData = await fetchUserProfile();
-        const reviewData: Review[] = await FetchUserReview(userData._id);
+        const reviewData = await FetchUserReview(userData._id);
         setReviews(reviewData);
 
       } catch (error) {

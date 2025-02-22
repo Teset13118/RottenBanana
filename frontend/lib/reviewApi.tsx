@@ -21,7 +21,7 @@ export async function FetchUserReview(id: string){
 };
 
 export async function postReview(animeId:string, animeName:string,text:string, score: number) {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   try {
     const res = await axios.post("http://localhost:8080/api/review/postReview",
       { animeId, animeName,text, score },
@@ -35,7 +35,7 @@ export async function postReview(animeId:string, animeName:string,text:string, s
 
 export async function updateReview(reviewId: string, text: string, score: number) {
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       const res = await axios.put(`http://localhost:8080/api/review/updateReview/${reviewId}`,
         { text, score },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -48,7 +48,7 @@ export async function updateReview(reviewId: string, text: string, score: number
   
 export async function deleteReview(reviewId: string){
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       const res = await axios.delete(`http://localhost:8080/api/review/deleteReview/${reviewId}`, 
         { headers: { Authorization: `Bearer ${token}` }}
       );
