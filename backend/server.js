@@ -21,7 +21,7 @@ app.use("/api/review", reviewRoutes);
 
 app.get('/api/anime/season/now', async (req, res) => {
   try {
-    const response = await axios.get('https://api.jikan.moe/v4/seasons/now?limit=3');
+    const response = await axios.get('https://api.jikan.moe/v4/seasons/now?limit=4');
     res.json(response.data.data);
   } catch (error) {
     console.error('Error fetching data from Jikan API ayo:', error.message);

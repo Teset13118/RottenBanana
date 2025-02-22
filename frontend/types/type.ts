@@ -16,6 +16,7 @@ export interface Review {
   };
   animeId: string;
   animeName: string;
+  animePic: string;
   text: string;
   score: number;
   createdAt: string;

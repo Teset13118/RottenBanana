@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const { blacklistedTokens } = require("../controllers/authController");
 
 // exports.verifyToken = (req, res, next) => {
 //   const token = req.header("Authorization"); 

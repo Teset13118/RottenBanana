@@ -20,11 +20,11 @@ export async function FetchUserReview(id: string){
   }
 };
 
-export async function postReview(animeId:string, animeName:string,text:string, score: number) {
+export async function postReview(animeId:string, animeName:string, animePic:string, text:string, score: number) {
   const token = sessionStorage.getItem("token");
   try {
     const res = await axios.post("http://localhost:8080/api/review/postReview",
-      { animeId, animeName,text, score },
+      { animeId, animeName, animePic ,text, score },
       { headers: { Authorization: `Bearer ${token}` } }
     );
     return res;

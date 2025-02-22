@@ -10,7 +10,26 @@ import { fetchUserProfile } from '@/lib/userApi';
 import { FetchReviewList, updateReview, deleteReview, postReview } from '@/lib/reviewApi';
 
 //แสดงรายละเอียดของ anime
-function AnimeInfo({ anime }: { anime: Anime | null }) {
+function AnimeInfo() {
+  const { id } = useParams() as { id: string };
+  const [anime, setAnime] = useState<Anime | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await FetchAnime(id);
+        setAnime(data);
+      } catch (error) {
+        console.error("Error fetching anime:", error);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  if (anime){
+    sessionStorage.setItem('animeTitle', anime.title)
+    sessionStorage.setItem('animePic', anime.images.jpg.image_url)
+  }
   return (
     <div>
       {anime ? (
@@ -86,29 +105,26 @@ function ReviewStatistics({ reviews }: { reviews: Review[] }) {
   );
 };
 
-function PostReview({ fetchData, hasReviewed, animeTitle }: { fetchData: () => void; hasReviewed: boolean; animeTitle: string }) {
+function PostReview({ fetchData, hasReviewed }: { fetchData: () => void; hasReviewed: boolean;}) {
   const { id: animeId } = useParams() as { id: string };
   const [text, setText] = useState<string>("");
   const [score, setScore] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    setIsAuthenticated(!!token);
-  }, []);
+  const isAuthenticated = !!sessionStorage.getItem("token")
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setErrorMessage("");
+    const animeTitle = sessionStorage.getItem('animeTitle') as string; //postReview ต้องการให้ animeTitle เป็น string เท่านั้น
+    const animePic = sessionStorage.getItem('animePic') as string; //postReview ต้องการให้ animePic เป็น string เท่านั้น
 
-    const token = sessionStorage.getItem("token");
-    if (!token) {
+    if (!isAuthenticated) {
       setErrorMessage("You must be logged in to review.");
       return;
     }
 
     try {
-      const res = await postReview(animeId, animeTitle, text, score)
+      const res = await postReview(animeId, animeTitle, animePic, text, score)
       if (res.status === 201) {
         alert("Review posted successfully!");
         setText("");
@@ -159,7 +175,7 @@ function PostReview({ fetchData, hasReviewed, animeTitle }: { fetchData: () => v
   );
 }
 
-function Reviews({ animeTitle }: { animeTitle: string }) {
+function Reviews() {
   const { id } = useParams() as { id: string };
   const [reviews, setReviews] = useState<Review[]>([]);
   const [editingReview, setEditingReview] = useState<string | null>(null);
@@ -215,7 +231,7 @@ function Reviews({ animeTitle }: { animeTitle: string }) {
   return (
     <div>
       {reviews.length > 0 && <ReviewStatistics reviews={reviews} />}
-      {<PostReview fetchData={fetchData} hasReviewed={hasReviewed} animeTitle={animeTitle} />}
+      {<PostReview fetchData={fetchData} hasReviewed={hasReviewed} />}
       <h2>Reviews</h2>
       {reviews.length > 0 ? (
         reviews.map((review) => {
@@ -280,32 +296,14 @@ function Reviews({ animeTitle }: { animeTitle: string }) {
 }
 
 export default function Info() {
-  const { id } = useParams() as { id: string };
-  const [anime, setAnime] = useState<Anime | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await FetchAnime(id);
-        setAnime(data);
-      } catch (error) {
-        console.error("Error fetching anime:", error);
-      }
-    };
-    fetchData();
-  }, [id]);
-
-  if (!anime) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <>
       <div>
-        <AnimeInfo anime={anime} />
+        <AnimeInfo/>
       </div>
       <div>
-        <Reviews animeTitle={anime.title} />
+        <Reviews/>
       </div>
     </>
   );
