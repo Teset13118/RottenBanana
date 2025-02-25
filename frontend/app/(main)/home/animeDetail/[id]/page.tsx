@@ -3,6 +3,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import moment from "moment-timezone";
+import "@/styles/globals.css";
 
 import { Anime, Review, Statistics } from '@/types/type';
 import { FetchAnime } from '@/lib/animeApi';
@@ -24,29 +25,61 @@ function AnimeInfo() {
       }
     };
     fetchData();
-  }, [id]);
+  }, []);
 
-  if (anime){
+  if (anime) {
     sessionStorage.setItem('animeTitle', anime.title)
     sessionStorage.setItem('animePic', anime.images.jpg.image_url)
   }
   return (
     <div>
       {anime ? (
-        <div>
-          <h1>{anime.title}</h1>
-          <img
-            src={anime.images.jpg.image_url}
-            alt={anime.title}
-            style={{ width: "300px", height: "450px", objectFit: "cover", borderRadius: "10px" }}
-          />
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 p-4 w-full">
+          {/* Anime Image Section */}
+          <div className="col-span-1 md:col-span-2 lg:col-span-2 md:row-span-5 lg:row-span-5">
+            <img
+              src={anime.images.jpg.large_image_url}
+              alt={anime.title}
+              className="w-full h-full object-cover rounded-lg shadow-lg "
+            />
+          </div>
+
+          {/* Anime Title and Genre Section */}
+          <div className="col-span-1 row-span-2 md:col-span-2 lg:col-span-2 md:col-start-3 lg:col-start-3 md:row-span-2 lg:row-span-2 bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center">
+            <h1 className="text-2xl md:text-3xl font-semibold mb-4">{anime.title}</h1>
+            <p className="text-base md:text-lg mb-2">
+              <strong>Genres:</strong> {anime.genres.map(genre => genre.name).join(', ')}
+            </p>
+            <p className="text-base md:text-lg mb-2">{anime.season} {anime.year}</p>
+            <p className="text-sm md:text-md text-gray-600">{anime.rating}</p>
+          </div>
+
+          {/* YouTube Trailer Section */}
+          <div className="col-span-1 md:col-span-2 lg:col-span-2 md:col-start-3 lg:col-start-5 md:row-span-3 lg:row-span-2 h-full">
+            <div className="relative w-full h-full min-h-[200px]">
+              <iframe
+                src={anime.trailer.embed_url}
+                title="YouTube Video"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full rounded-lg shadow-lg"
+              ></iframe>
+            </div>
+          </div>
+
+          {/* Anime Synopsis Section */}
+          <div className="col-span-1 md:col-span-4 lg:col-span-4 md:col-start-1 lg:col-start-3 md:row-span-2 lg:row-span-3 bg-white p-6 rounded-lg shadow-lg h-full flex flex-col">
+            <h2 className="text-xl md:text-2xl font-semibold mb-4">Synopsis</h2>
+            <p className="text-sm md:text-md text-gray-700 flex-grow">{anime.synopsis}</p>
+          </div>
         </div>
       ) : (
-        <p>Loading anime details...</p>
+        <p className="text-center">Loading anime details...</p>
       )}
     </div>
   );
-}
+};
+
 
 
 function ReviewStatistics({ reviews }: { reviews: Review[] }) {
@@ -85,19 +118,43 @@ function ReviewStatistics({ reviews }: { reviews: Review[] }) {
   const getPercentage = (count: number): string => {
     return ((count / stats.totalReviews) * 100).toFixed(1);
   };
+  // สร้างความยาวของแถบตามสัดส่วน
+  const getBarWidth = (count: number): string => {
+    const percentage = (count / stats.totalReviews) * 100;
+    return `${Math.max(percentage, 3)}%`; // ให้แถบมีความยาวอย่างน้อย 3% เพื่อความสวยงาม
+  };
 
   return (
-    <div>
-      <h3 className="text-xl font-bold mb-4">Review Statistics</h3>
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <p className="text-gray-600">Average Score : {stats.averageScore}</p>
-        <p className="text-gray-600">Total Reviews : {stats.totalReviews}</p>
+    <div className="bg-white rounded-lg shadow-lg p-6 w-full col-span-1">
+      <h2 className="text-xl font-semibold mb-4">Review Statistics</h2>
+
+      <div className="flex items-center justify-between mb-6">
+        <div className="text-center">
+          <div className="text-3xl font-bold text-indigo-600">{stats.averageScore}</div>
+          <div className="text-sm text-gray-500">Average Score</div>
+        </div>
+
+        <div className="text-center">
+          <div className="text-3xl font-bold text-gray-800">{stats.totalReviews}</div>
+          <div className="text-sm text-gray-500">Total Reviews</div>
+        </div>
       </div>
-      <div>
+
+      <div className="space-y-3">
         {[5, 4, 3, 2, 1].map(score => (
-          <div key={score}>
-            <span>{score} ★</span>
-            <p>{stats.scoreDistribution[score]} ({getPercentage(stats.scoreDistribution[score])}%)</p>
+          <div key={score} className="flex items-center">
+            <div className="w-8 text-sm font-medium">{score} ★</div>
+            <div className="flex-1 mx-2">
+              <div className="h-3 rounded-full bg-gray-200">
+                <div
+                  className={`h-3 rounded-full ${score >= 4 ? 'bg-green-500' : score === 3 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                  style={{ width: getBarWidth(stats.scoreDistribution[score]) }}
+                ></div>
+              </div>
+            </div>
+            <div className="w-24 text-right text-sm">
+              {stats.scoreDistribution[score]} ({getPercentage(stats.scoreDistribution[score])}%)
+            </div>
           </div>
         ))}
       </div>
@@ -105,18 +162,24 @@ function ReviewStatistics({ reviews }: { reviews: Review[] }) {
   );
 };
 
-function PostReview({ fetchData, hasReviewed }: { fetchData: () => void; hasReviewed: boolean;}) {
+function PostReview({ hasReviewed, fetchData }: { hasReviewed: boolean; fetchData: () => void; }) {
   const { id: animeId } = useParams() as { id: string };
   const [text, setText] = useState<string>("");
   const [score, setScore] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const isAuthenticated = !!sessionStorage.getItem("token")
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [animeTitle, setAnimeTitle] = useState<string>("");
+  const [animePic, setAnimePic] = useState<string>("");
+
+  useEffect(() => {
+    setIsAuthenticated(!!sessionStorage.getItem("token"));
+    setAnimeTitle(sessionStorage.getItem("animeTitle") || "");
+    setAnimePic(sessionStorage.getItem("animePic") || "");
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setErrorMessage("");
-    const animeTitle = sessionStorage.getItem('animeTitle') as string; //postReview ต้องการให้ animeTitle เป็น string เท่านั้น
-    const animePic = sessionStorage.getItem('animePic') as string; //postReview ต้องการให้ animePic เป็น string เท่านั้น
 
     if (!isAuthenticated) {
       setErrorMessage("You must be logged in to review.");
@@ -129,7 +192,7 @@ function PostReview({ fetchData, hasReviewed }: { fetchData: () => void; hasRevi
         alert("Review posted successfully!");
         setText("");
         setScore(0);
-        fetchData();
+        fetchData()
       }
     } catch (error: any) {
       setErrorMessage(error?.response?.data?.message || "Failed to post Review.");
@@ -137,40 +200,47 @@ function PostReview({ fetchData, hasReviewed }: { fetchData: () => void; hasRevi
   };
 
   return (
-    <div>
-      <h2>Post a Review</h2>
+    <div className="col-span-1 bg-white p-6 rounded-lg shadow-lg">
+      <h2 className="text-xl font-semibold mb-4">Post a Review</h2>
       {isAuthenticated ? (
         hasReviewed ? (
-          <p style={{ color: "red" }}>You have already posted a review.</p>
+          <p className="text-red-500 font-medium">You have already posted a review.</p>
         ) : (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="space-y-4">
             <textarea
               placeholder="Write your review..."
               value={text}
               onChange={(e) => setText(e.target.value)}
               required
+              className="w-full p-3 border rounded-lg resize-none"
             />
             <div>
-              <p>Select your rating:</p>
-              <div style={{ display: "flex", gap: "5px" }}>
+              <p className="font-medium">Select your Banana:</p>
+              <div className="flex gap-2">
                 {[5, 4, 3, 2, 1].map((num) => (
                   <img
                     key={num}
                     src={`/${num}.png`}
                     alt={`Rating ${num}`}
-                    style={{ width: "100px", cursor: "pointer", opacity: score === num ? 1 : 0.7 }}
+                    className={`w-16 cursor-pointer transition-opacity duration-200 ${score === num ? "opacity-100" : "opacity-70 hover:opacity-100 hover:scale-125"
+                      }`}
                     onClick={() => setScore(num)}
                   />
                 ))}
               </div>
             </div>
-            <button type="submit">Post Review</button>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition"
+            >
+              Post Review
+            </button>
           </form>
         )
       ) : (
-        <p style={{ color: "red" }}>You must be logged in to review.</p>
+        <p className="text-red-500 font-medium">You must be logged in to review.</p>
       )}
-      {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
+      {errorMessage && <div className="text-red-500 font-medium mt-2">{errorMessage}</div>}
     </div>
   );
 }
@@ -182,7 +252,11 @@ function Reviews() {
   const [editText, setEditText] = useState<string>("");
   const [editScore, setEditScore] = useState<number>(0);
   const [userId, setUserId] = useState<string>("");
+
+  //modal
   const [hasReviewed, setHasReviewed] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 
   const fetchData = async () => {
     try {
@@ -191,14 +265,14 @@ function Reviews() {
       setReviews(reviewData);
 
       if (userData) {
-        setUserId(userData._id)
-        setHasReviewed(reviewData.some((review) => review.userId._id === userData._id)); // ตรวจสอบว่า user มี review แล้วหรือไม่
+        setUserId(userData._id);
+        setHasReviewed(reviewData.some((review) => review.userId._id === userData._id));
       }
     } catch (error) {
-      console.error('Error fetching review list or user profile:', error);
+      console.error("Error fetching review list or user profile:", error);
     }
-
   };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -207,12 +281,15 @@ function Reviews() {
     setEditingReview(review._id);
     setEditText(review.text);
     setEditScore(review.score);
+    setIsModalOpen(true);
+    setDropdownOpen(null);
   };
 
   const handleUpdate = async (reviewId: string) => {
     try {
       await updateReview(reviewId, editText, editScore);
       setEditingReview(null);
+      setIsModalOpen(false);
       fetchData()
     } catch (error) {
       console.error("Update failed:", error);
@@ -229,67 +306,96 @@ function Reviews() {
   };
 
   return (
-    <div>
-      {<ReviewStatistics reviews={reviews} />}
-      {<PostReview fetchData={fetchData} hasReviewed={hasReviewed} />}
-      <h2>Reviews</h2>
-      {reviews.length > 0 ? (
-        reviews.map((review) => {
-          const createdAt = moment(review.createdAt).tz("Asia/Bangkok").format("YYYY-MM-DD HH:mm:ss");
-          const updatedAt = moment(review.updatedAt).tz("Asia/Bangkok").format("YYYY-MM-DD HH:mm:ss");
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 p-4 lg:auto-rows-min">
+      {/* Left Panel */}
+      <div className="flex flex-col gap-4 lg:col-span-1">
+        <PostReview hasReviewed={hasReviewed} fetchData={fetchData} />
+        <ReviewStatistics reviews={reviews} />
+      </div>
 
-          return (
-            <div
-              key={review._id}
-              style={{ border: "1px solid #ddd", padding: "10px", marginBottom: "10px" }}
-            >
-              <p>Review ID: {review._id}</p>
-              <p>User ID: {review.userId._id}</p>
-              <p>
-                <strong>User:</strong> {review.userId.username || "Anonymous"}
-              </p>
-              <p>
-                <strong>Score:</strong> {review.score}/5
-              </p>
-              <p>{review.text}</p>
-              <p><strong>Created At:</strong> {createdAt}</p>  {/* เพิ่มแสดงเวลา createdAt */}
-              <p><strong>Updated At:</strong> {updatedAt}</p>  {/* เพิ่มแสดงเวลา updatedAt */}
-              <a href={`/profile/otherUserProfile/${review.userId._id}`}>profile</a>
+      {/* Right Panel (Reviews List) */}
+      <div className="lg:col-span-2 p-6 rounded-lg shadow-lg bg-white self-start">
+        <h2 className="text-xl font-semibold mb-4">Reviews</h2>
+        {reviews.length > 0 ? (
+          reviews.map((review) => {
+            const createdAt = moment(review.createdAt).tz("Asia/Bangkok").format("YYYY-MM-DD HH:mm:ss");
+            const updatedAt = moment(review.updatedAt).tz("Asia/Bangkok").format("YYYY-MM-DD HH:mm:ss");
 
-              {/* ปุ่ม Edit & Delete เฉพาะเจ้าของคอมเมนต์ */}
-              {userId === review.userId._id && (
-                <div>
-                  {editingReview === review._id ? (
-                    <>
-                      <input
-                        type="text"
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
-                        placeholder="Edit review"
-                      />
-                      <input
-                        type="number"
-                        value={editScore}
-                        onChange={(e) => setEditScore(Number(e.target.value))}
-                        min="0"
-                        max="5"
-                      />
-                      <button onClick={() => handleUpdate(review._id)}>Save</button>
-                      <button onClick={() => setEditingReview(null)}>Cancel</button>
-                    </>
-                  ) : (
-                    <>
-                      <button onClick={() => handleEdit(review)}>Edit</button>
-                      <button onClick={() => handleDelete(review._id)}>Delete</button>
-                    </>
-                  )}
+            return (
+              <div key={review._id} className="border p-4 pb-1 mb-4 relative border-solid rounded-lg shadow-lg bg-white">
+                <div className="flex items-center mb-3">
+                  <a
+                    href={`/profile/otherUserProfile/${review.userId._id}`}
+                    className="font-bold text-lg mr-2 hover:underline"
+                  >
+                    {review.userId.username}
+                  </a>
                 </div>
-              )}
+
+                <div className="my-3">
+                  <p className="text-gray-700">{review.text}</p>
+                </div>
+
+                <div className="flex justify-between items-center mt-4">
+                  <div className="flex items-center">
+                    <span className="font-semibold">Ripeness Level {review.score}</span>
+                    <img src={`/${review.score}.png`} alt="Rating" className="w-16 mr-1"/>
+                  </div>
+
+                  <div className="text-xs text-gray-500">
+                    <p>Created: {createdAt}</p>
+                    <p>Updated: {updatedAt}</p>
+                  </div>
+                </div>
+
+                {/* User actions dropdown */}
+                {userId === review.userId._id && (
+                  <div className="absolute top-2 right-2">
+                    <button
+                      onClick={() => setDropdownOpen(dropdownOpen === review._id ? null : review._id)}
+                      className="size-10 p-1 rounded-full hover:bg-gray-100 font-bold"
+                    >
+                      &#x22EE;
+                    </button>
+                    {dropdownOpen === review._id && (
+                      <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg z-10">
+                        <button
+                          onClick={() => handleEdit(review)}
+                          className="block w-full text-left px-4 py-2 hover:bg-gray-200 transition-colors"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(review._id)}
+                          className="block w-full text-left px-4 py-2 hover:bg-gray-200 text-red-500 transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })
+        ) : (
+          <p>No reviews yet.</p>
+        )}
+      </div>
+
+      {/* Edit Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <h3 className="text-lg font-bold">Edit Review</h3>
+            <input type="text" value={editText} onChange={(e) => setEditText(e.target.value)} className="border p-2 w-full mt-2" />
+            <input type="number" value={editScore} onChange={(e) => setEditScore(Number(e.target.value))} min="0" max="5" className="border p-2 w-full mt-2" />
+            <div className="mt-4 flex justify-end">
+              <button onClick={() => handleUpdate(editingReview!)} className="bg-green-500 text-white px-3 py-1 mr-2">Save</button>
+              <button onClick={() => setIsModalOpen(false)} className="bg-gray-500 text-white px-3 py-1">Cancel</button>
             </div>
-          );
-        })
-      ) : (
-        <p>No reviews yet.</p>
+          </div>
+        </div>
       )}
     </div>
   );
@@ -300,10 +406,8 @@ export default function Info() {
   return (
     <>
       <div>
-        <AnimeInfo/>
-      </div>
-      <div>
-        <Reviews/>
+        <AnimeInfo />
+        <Reviews />
       </div>
     </>
   );

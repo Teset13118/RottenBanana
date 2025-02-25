@@ -4,8 +4,19 @@ export interface Anime {
   images: {
     jpg: {
       image_url: string;
+      large_image_url: string;
     };
   };
+  trailer: {
+    embed_url : string
+  }
+  rating: string;
+  synopsis: string;
+  season: string;
+  year: string;
+  genres: {
+    name: string;
+  }[];
 }
 
 export interface Review {
