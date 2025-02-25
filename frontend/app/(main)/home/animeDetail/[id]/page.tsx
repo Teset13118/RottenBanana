@@ -170,6 +170,7 @@ function PostReview({ hasReviewed, fetchData }: { hasReviewed: boolean; fetchDat
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [animeTitle, setAnimeTitle] = useState<string>("");
   const [animePic, setAnimePic] = useState<string>("");
+  const [scoreError, setScoreError] = useState<string>("");
 
   useEffect(() => {
     setIsAuthenticated(!!sessionStorage.getItem("token"));
@@ -180,9 +181,15 @@ function PostReview({ hasReviewed, fetchData }: { hasReviewed: boolean; fetchDat
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setErrorMessage("");
+    setScoreError("");
 
     if (!isAuthenticated) {
       setErrorMessage("You must be logged in to review.");
+      return;
+    }
+
+    if (score === 0) {
+      setScoreError("Please select a score before posting.");
       return;
     }
 
@@ -212,28 +219,36 @@ function PostReview({ hasReviewed, fetchData }: { hasReviewed: boolean; fetchDat
               value={text}
               onChange={(e) => setText(e.target.value)}
               required
-              className="w-full p-3 border rounded-lg resize-none"
+              className="w-full p-3 border rounded-lg"
             />
             <div>
-              <p className="font-medium">Select your Banana:</p>
+              <p className="font-medium">Select your Banana ripeness:</p>
               <div className="flex gap-2">
                 {[5, 4, 3, 2, 1].map((num) => (
                   <img
                     key={num}
                     src={`/${num}.png`}
                     alt={`Rating ${num}`}
-                    className={`w-16 cursor-pointer transition-opacity duration-200 ${score === num ? "opacity-100" : "opacity-70 hover:opacity-100 hover:scale-125"
-                      }`}
-                    onClick={() => setScore(num)}
+                    className={`w-10 sm:w-12 md:w-16 cursor-pointer transition-opacity duration-200 ${
+                      score === num 
+                        ? "opacity-100 scale-125 md:scale-150" 
+                        : "opacity-70 hover:opacity-100 hover:scale-125 md:hover:scale-150"
+                    }`}
+                    onClick={() => {
+                      setScore(num);
+                      setScoreError("");
+                    }}
                   />
                 ))}
               </div>
+              {scoreError && <p className="text-red-500 mt-2 font-medium">{scoreError}</p>}
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition"
+              className={`w-full font-semibold py-2 rounded-lg transition 
+              ${score === 0 ? "bg-red-500 hover:bg-red-600 text-white" : "bg-blue-600 hover:bg-blue-700 text-white"}`}
             >
-              Post Review
+              {score === 0 ? "Please Select a Score" : "Post Review"}
             </button>
           </form>
         )
@@ -343,8 +358,9 @@ function Reviews() {
                   </div>
 
                   <div className="text-xs text-gray-500">
-                    <p>Created: {createdAt}</p>
-                    <p>Updated: {updatedAt}</p>
+
+                    {/* <p>Created: {createdAt}</p>
+                    <p>Updated: {updatedAt}</p> */}
                   </div>
                 </div>
 
