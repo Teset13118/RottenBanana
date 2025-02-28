@@ -2,8 +2,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { Anime } from '@/types/type';
-import { FetchAnimeListSeasonNow } from '@/lib/animeApi';
+import { FetchAnimeListSeasonNow, FetchAnimeSeasonWinter } from '@/lib/animeApi';
 import { AnimeCard } from "@/app/components/animeCard";
+
+
+
+//slide anime season นั้นๆ
 
 function AnimeThisSeason() {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
@@ -26,7 +30,49 @@ function AnimeThisSeason() {
   };
 
   return (
-    <ul>
+    <div>
+
+        {animeList.length > 0 ? (
+          animeList.map((anime) => (
+            <AnimeCard
+              key={anime.mal_id}
+              title={anime.title}
+              imageUrl={anime.images.jpg.image_url}
+              onClick={() => handleClick(anime.mal_id)}
+            />
+          ))
+        ) : (
+          <p>Loading anime...</p>
+        )}
+    </div>
+    
+  )
+}
+
+//season ใดๆ เปลี่ยน
+//upcoming
+function AnimeSeasonWinter(){
+  const [animeList, setAnimeList] = useState<Anime[]>([]);
+  const router = useRouter();
+
+  const fetchData = async () => {
+    try {
+      const data = await FetchAnimeSeasonWinter();
+      setAnimeList(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleClick = (id: number) => {
+    router.push(`/home/animeDetail/${id}`);
+  };
+
+  return (
+    <div>
       {animeList.length > 0 ? (
         animeList.map((anime) => (
           <AnimeCard
@@ -39,13 +85,17 @@ function AnimeThisSeason() {
       ) : (
         <p>Loading anime...</p>
       )}
-    </ul>
+    </div>
   )
+
 }
 
 
 export default function Home() {
   return (
-    <AnimeThisSeason />
+    <>
+      <AnimeThisSeason />
+      <AnimeSeasonWinter />
+    </>
   )
 }
