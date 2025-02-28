@@ -19,6 +19,21 @@ export interface Anime {
   }[];
 }
 
+export interface AnimeSearch {
+  title: string;
+  mal_id: number;
+  trailer: {
+    embed_url : string
+  }
+  rating: string;
+  synopsis: string;
+  season: string;
+  year: string;
+  genres: {
+    name: string;
+  }[];
+}
+
 export interface Review {
   _id: string;
   userId: {

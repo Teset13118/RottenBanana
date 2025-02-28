@@ -75,6 +75,17 @@ app.get('/api/anime/top', async (req, res) => {
   }
 });
 
+app.get('/api/anime/:searchquery', async (req, res) => {
+  const searchQuery = req.params.searchquery;
+  try {
+    const response = await axios.get(`https://api.jikan.moe/v4/anime?q=${searchQuery}&limit=5`);
+    res.json(response.data.data);
+  } catch (error) {
+    console.error('Error fetching data from Jikan API ayo:', error.message);
+    res.status(500).json({ error: 'Failed to fetch data from Jikan API' });
+  }
+});
+
 app.get('/api/anime/:id', async (req, res) => {
   const animeId = req.params.id;
   try {
