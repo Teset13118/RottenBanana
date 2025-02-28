@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import {  Anime, AnimeSearch, User }  from '@/types/type';
+import {  Anime, User }  from '@/types/type';
 import { fetchUserProfile, LogoutUser } from '@/lib/userApi';
 import { FetchAnimeSearch } from '@/lib/animeApi';
 import axios from "axios";
@@ -11,7 +11,7 @@ import "@/styles/globals.css";
 
 function ComboBox(){
   const [searchQuery, setSearchQuery] = useState("");
-  const [animeResults, setAnimeResults] = useState<AnimeSearch[]>([]);
+  const [animeResults, setAnimeResults] = useState<Anime[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 

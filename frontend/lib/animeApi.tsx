@@ -22,7 +22,7 @@ export async function FetchAnimeSeasonWinter(){
 
 export async function FetchAnimeSearch(searchQuery: string){
   try {
-    const res = await axios.get(`http://localhost:8080/api/anime/${searchQuery}`);
+    const res = await axios.get(`http://localhost:8080/api/anime/search/${searchQuery}`);
     return res.data;
   } catch (error) {
     console.error("Error fetching animeList API:", error);

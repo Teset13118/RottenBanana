@@ -75,7 +75,7 @@ app.get('/api/anime/top', async (req, res) => {
   }
 });
 
-app.get('/api/anime/:searchquery', async (req, res) => {
+app.get('/api/anime/search/:searchquery', async (req, res) => {
   const searchQuery = req.params.searchquery;
   try {
     const response = await axios.get(`https://api.jikan.moe/v4/anime?q=${searchQuery}&limit=5`);

@@ -19,7 +19,7 @@ function AnimeInfo() {
     const fetchData = async () => {
       try {
         const data = await FetchAnime(id);
-        setAnime(data);
+        setAnime(data); 
       } catch (error) {
         console.error("Error fetching anime:", error);
       }
@@ -116,10 +116,11 @@ function ReviewStatistics({ reviews }: { reviews: Review[] }) {
 
   // คำนวณเปอร์เซ็นต์ของแต่ละคะแนน
   const getPercentage = (count: number): string => {
-    return ((count / stats.totalReviews) * 100).toFixed(1);
+    return stats.totalReviews > 0 ? ((count / stats.totalReviews) * 100).toFixed(1) : "0.0";
   };
   // สร้างความยาวของแถบตามสัดส่วน
   const getBarWidth = (count: number): string => {
+    if (stats.totalReviews === 0) return ""; // รีเซ็ตแถบถ้าไม่มี review
     const percentage = (count / stats.totalReviews) * 100;
     return `${Math.max(percentage, 3)}%`; // ให้แถบมีความยาวอย่างน้อย 3% เพื่อความสวยงาม
   };
