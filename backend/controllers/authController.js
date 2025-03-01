@@ -72,4 +72,26 @@ const User = require("../models/User");
       res.status(500).json({ error: error.message });
     }
   };
+
+  //update profile
+  exports.updateProfile = async (req, res) => {
+    try {
+      const { nickname, about } = req.body;
+  
+      const user = await User.findById(req.user.id);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      // อัปเดตเฉพาะฟิลด์ที่ส่งมา
+      if (nickname !== undefined) user.nickname = nickname;
+      if (about !== undefined) user.about = about;
+  
+      await user.save();
+  
+      res.json({ message: "Profile updated successfully", user });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
   

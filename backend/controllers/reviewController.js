@@ -3,7 +3,7 @@ const Review = require("../models/Review");
 exports.getReviewList = async (req, res) => {
   try {
     const { id } = req.params;
-    const reviewList = await Review.find({ animeId: id }).populate("userId", "username").sort({ createdAt: -1 });
+    const reviewList = await Review.find({ animeId: id }).populate("userId", "username nickname").sort({ createdAt: -1 });
     res.json(reviewList);
   } catch (error) {
     res.status(500).json({ error: error.message });

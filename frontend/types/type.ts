@@ -24,6 +24,7 @@ export interface Review {
   userId: {
     _id: string;
     username: string;
+    nickname: string;
   };
   animeId: string;
   animeName: string;
@@ -37,6 +38,8 @@ export interface Review {
 export interface User {
   _id: string;
   username: string;
+  nickname: string;
+  about: string;
   email: string;
   createdAt: string;
 };

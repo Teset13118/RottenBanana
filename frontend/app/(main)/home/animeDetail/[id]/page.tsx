@@ -19,7 +19,7 @@ function AnimeInfo() {
     const fetchData = async () => {
       try {
         const data = await FetchAnime(id);
-        setAnime(data); 
+        setAnime(data);
       } catch (error) {
         console.error("Error fetching anime:", error);
       }
@@ -228,13 +228,12 @@ function PostReview({ hasReviewed, fetchData }: { hasReviewed: boolean; fetchDat
                 {[5, 4, 3, 2, 1].map((num) => (
                   <img
                     key={num}
-                    src={`/${num}.png`}
+                    src={`/bananaScore/${num}.png`}
                     alt={`Rating ${num}`}
-                    className={`w-10 sm:w-12 md:w-16 cursor-pointer transition-opacity duration-200 ${
-                      score === num 
-                        ? "opacity-100 scale-125 md:scale-150" 
+                    className={`w-10 sm:w-12 md:w-16 cursor-pointer transition-opacity duration-200 ${score === num
+                        ? "opacity-100 scale-125 md:scale-150"
                         : "opacity-70 hover:opacity-100 hover:scale-125 md:hover:scale-150"
-                    }`}
+                      }`}
                     onClick={() => {
                       setScore(num);
                       setScoreError("");
@@ -343,8 +342,9 @@ function Reviews() {
                   <a
                     href={`/profile/otherUserProfile/${review.userId._id}`}
                     className="font-bold text-lg mr-2 hover:underline"
+                    title={review.userId.username}
                   >
-                    {review.userId.username}
+                    {review.userId.nickname ? review.userId.nickname : review.userId.username}
                   </a>
                 </div>
 
@@ -355,7 +355,7 @@ function Reviews() {
                 <div className="flex justify-between items-center mt-4">
                   <div className="flex items-center">
                     <span className="font-semibold">Ripeness Level {review.score}</span>
-                    <img src={`/${review.score}.png`} alt="Rating" className="w-16 mr-1"/>
+                    <img src={`/bananaScore/${review.score}.png`} alt="Rating" className="w-16 mr-1" />
                   </div>
 
                   <div className="text-xs text-gray-500">
@@ -406,7 +406,22 @@ function Reviews() {
           <div className="bg-white p-6 rounded shadow-lg">
             <h3 className="text-lg font-bold">Edit Review</h3>
             <input type="text" value={editText} onChange={(e) => setEditText(e.target.value)} className="border p-2 w-full mt-2" />
-            <input type="number" value={editScore} onChange={(e) => setEditScore(Number(e.target.value))} min="0" max="5" className="border p-2 w-full mt-2" />
+            <h5 className='mt-4 font-bold'>Your new Banana ripeness:</h5>
+            {/* Banana Rating */}
+            <div className="flex justify-center mt-1 space-x-2">
+              {[5, 4, 3, 2, 1].map(num => (
+                <img
+                  key={num}
+                  src={`/bananaScore/${num}.png`}
+                  alt={`Rating ${num}`}
+                  className={`w-10 sm:w-12 md:w-16 cursor-pointer transition-all duration-200 ${editScore === num
+                      ? "opacity-100 scale-125 md:scale-150"
+                      : "opacity-70 hover:opacity-100 hover:scale-125 md:hover:scale-150"
+                    }`}
+                  onClick={() => setEditScore(num)}
+                />
+              ))}
+            </div>
             <div className="mt-4 flex justify-end">
               <button onClick={() => handleUpdate(editingReview!)} className="bg-green-500 text-white px-3 py-1 mr-2">Save</button>
               <button onClick={() => setIsModalOpen(false)} className="bg-gray-500 text-white px-3 py-1">Cancel</button>
