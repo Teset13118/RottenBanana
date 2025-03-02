@@ -1,13 +1,11 @@
 'use client';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from "react";
-import axios from 'axios';
 import moment from "moment-timezone";
-import "@/styles/globals.css";
 
-import { Anime, Review, Statistics } from '@/types/type';
+import { Review} from '@/types/type';
 import { fetchUserProfile } from '@/lib/userApi';
-import { FetchReviewList, updateReview, deleteReview, postReview } from '@/lib/reviewApi';
+import { FetchReviewList, updateReview, deleteReview} from '@/lib/reviewApi';
 import { ReviewsSkeleton } from '@/app/components/skeletons/animeDetailSkeleton';
 import ReviewStatistics from './reviewStatistic';
 import PostReview from './postReview';
@@ -96,8 +94,7 @@ export default function Reviews() {
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
-            >
+              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
               <option value="asc">Newest</option>
               <option value="desc">Oldest</option>
             </select>
@@ -109,8 +106,7 @@ export default function Reviews() {
           reviews.map((review) => (
             <div
               key={review._id}
-              className="border p-4 pb-1 mb-4 relative border-solid rounded-lg shadow-lg bg-white"
-            >
+              className="border p-4 pb-1 mb-4 relative border-solid rounded-lg shadow-lg bg-white">
               <div className="flex items-center">
                 <a
                   href={`/profile/otherUserProfile/${review.userId._id}`}

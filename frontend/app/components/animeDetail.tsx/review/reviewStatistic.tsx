@@ -1,15 +1,8 @@
 'use client';
-import { useParams } from 'next/navigation';
 import { useEffect, useState } from "react";
-import axios from 'axios';
-import moment from "moment-timezone";
-import "@/styles/globals.css";
 
-import { Anime, Review, Statistics } from '@/types/type';
-import { FetchAnime } from '@/lib/animeApi';
-import { fetchUserProfile } from '@/lib/userApi';
-import { FetchReviewList, updateReview, deleteReview, postReview } from '@/lib/reviewApi';
-import { AnimeInfoSkeleton, ReviewStatisticsSkeleton, PostReviewSkeleton, ReviewsSkeleton } from '@/app/components/skeletons/animeDetailSkeleton';
+import { Review, Statistics } from '@/types/type';
+import { ReviewStatisticsSkeleton } from '@/app/components/skeletons/animeDetailSkeleton';
 
 export default function ReviewStatistics({ reviews }: { reviews: Review[] }) {
     const [loading, setLoading] = useState(true);

@@ -25,7 +25,7 @@ export default function UserReviews() {
     };
     useEffect(() => {
         fetchData();
-    }, [sortOrder]);
+    }, [sortOrder, []]);
 
     if (loading) {
         return <UserReviewSkeleton />;
