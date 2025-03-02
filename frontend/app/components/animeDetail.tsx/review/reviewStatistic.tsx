@@ -75,7 +75,7 @@ export default function ReviewStatistics({ reviews }: { reviews: Review[] }) {
         <div className="space-y-3">
           {[5, 4, 3, 2, 1].map(score => (
             <div key={score} className="flex items-center">
-              <div className="w-8 text-sm font-medium">{score} ★</div>
+              <div className="flex w-8 justify-center items-center text-sm font-medium">{score}<img src={`/bananaScore/${score}.png`} alt="Rating" className=" self-center"/></div>
               <div className="flex-1 mx-2">
                 <div className="h-3 rounded-full bg-gray-200">
                   <div

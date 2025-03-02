@@ -23,7 +23,7 @@ app.use("/api/review", reviewRoutes);
 //slide anime season now
 app.get('/api/anime/season/now', async (req, res) => {
   try {
-    const response = await axios.get('https://api.jikan.moe/v4/seasons/now?limit=10');
+    const response = await axios.get('https://api.jikan.moe/v4/seasons/now?limit=5');
     res.json(response.data.data);
   } catch (error) {
     console.error('Error fetching data from Jikan API ayo:', error.message);
@@ -34,7 +34,7 @@ app.get('/api/anime/season/now', async (req, res) => {
 //winter
 app.get('/api/anime/season/2024/winter', async (req, res) => {
   try {
-    const response = await axios.get('https://api.jikan.moe/v4/seasons/2024/winter?limit=10');
+    const response = await axios.get('https://api.jikan.moe/v4/seasons/2024/winter?limit=5');
     res.json(response.data.data);
   } catch (error) {
     console.error('Error fetching data from Jikan API ayo:', error.message);
