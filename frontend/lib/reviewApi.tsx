@@ -1,10 +1,23 @@
 import axios from 'axios';
 import { Review } from '@/types/type';
 
-export async function FetchReviewList(id: string){
+export async function FetchReviewList(id: string, sortOrder: 'asc' | 'desc' = 'asc'){
   try {
     const res = await axios.get(`http://localhost:8080/api/review/getReviewList/${id}`);
-    return res.data;
+    const reviews: Review[] = res.data;
+
+    reviews.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+
+      if (sortOrder === 'asc') {
+        return dateB - dateA; // ใหม่สุดไปเก่าสุด
+      } else {
+        return dateA - dateB; // เก่าสุดไปใหม่สุด
+      }
+    });
+
+    return reviews;
   } catch (error) {
     console.error("Error fetching anime info:", error);
     throw error;
