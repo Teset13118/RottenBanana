@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Review } from '@/types/type';
 
 export async function FetchReviewList(id: string){
   try {
@@ -10,15 +11,39 @@ export async function FetchReviewList(id: string){
   }
 };
 
-export async function FetchUserReview(id: string){
+// export async function FetchUserReview(id: string){
+//   try {
+//     const res = await axios.get(`http://localhost:8080/api/review/getUserReview/${id}`);
+//     return res.data;
+//   } catch (error) {
+//     console.error("Error fetching anime info:", error);
+//     throw error;
+//   }
+// };
+
+export async function FetchUserReview(id: string, sortOrder: 'asc' | 'desc' = 'asc') {
   try {
     const res = await axios.get(`http://localhost:8080/api/review/getUserReview/${id}`);
-    return res.data;
+    const reviews: Review[] = res.data;
+
+    // ทำการ sorting ข้อมูลตามวันที่ (จากเก่าสุดไปใหม่สุดหรือจากใหม่สุดไปเก่าสุด)
+    reviews.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+
+      if (sortOrder === 'asc') {
+        return dateB - dateA; // จากใหม่สุดไปเก่าสุด
+      } else {
+        return dateA - dateB; // จากเก่าสุดไปใหม่สุด
+      }
+    });
+
+    return reviews;
   } catch (error) {
-    console.error("Error fetching anime info:", error);
+    console.error("Error fetching user reviews:", error);
     throw error;
   }
-};
+}
 
 export async function postReview(animeId:string, animeName:string, animePic:string, text:string, score: number) {
   const token = sessionStorage.getItem("token");

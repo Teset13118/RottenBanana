@@ -6,82 +6,120 @@ import "@/styles/globals.css";
 import { fetchOtherUserProfile } from '@/lib/userApi';
 import { FetchUserReview } from '@/lib/reviewApi';
 import { User, Review } from '@/types/type';
+import { OtherUserProfileInfoSkeleton, OtherUserReviewSkeleton } from "@/app/components/skeletons/profileSkeletons";
+
 
 function OtherUserProfileInfo() {
   const { userId } = useParams() as { userId: string };
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
+      setLoading(true);
       try {
         const data = await fetchOtherUserProfile(userId);
         setUser(data);
       } catch (error) {
         console.error("Error fetching user profile:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchUser();
   }, [userId]);
 
+  if (loading) {
+    return <OtherUserProfileInfoSkeleton />;
+  }
+
   if (!user) {
-    return <div>Loading...</div>;
+    return <div>Failed to load profile data. Please try again.</div>;
   }
 
   return (
     <>
       <div className='flex flex-col items-center'>
-        <img
-          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-          alt="profilePic"
-          className='rounded-full size-44'
-        />
+        <div className='rounded-full border-solid border-8 p-7'>
+          <img
+            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+            alt="profilePic"
+            className="rounded-full size-52"
+          />
+        </div>
       </div>
-      <div className='pt-4'>
-        <p className='text-[0.6rem]'>UserId: {user._id}</p>
-        <p>Username: {user.username}</p>
-        <p>Email: {user.email}</p>
+      <div className='pt-4 lg:px-24 w-full'>
+        <p className='font-bold text-2xl'>{user.nickname ? user.nickname : user.username}</p>
+        <p className='text-xl'>{user.username}</p>
+        <p className='text-xl'>{user.email}</p>
+        {user.about ?
+          <p className='border-solid border-2 p-2 rounded-lg bg-gray-200 min-h-24 mt-4 text-base'>{user.about || ''}</p>
+          : ""
+        }
       </div>
     </>
   );
 }
 
+
 function OtherUserReviews() {
   const { userId } = useParams() as { userId: string };
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
-        const reviewData: Review[] = await FetchUserReview(userId);
+        const reviewData: Review[] = await FetchUserReview(userId, sortOrder);
         setReviews(reviewData);
       } catch (error) {
         console.error("Error fetching reviews:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, [userId]);
+  }, [sortOrder]);
+
+  if (loading) {
+    return <OtherUserReviewSkeleton />;
+  }
 
   return (
     <>
+      <div className="flex justify-end mb-4">
+        <a
+          onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+          className="px-4 text-gray-400 rounded-md hover:underline transition duration-300"
+        >
+          Sort by {sortOrder === 'asc' ? 'Oldest' : 'Newest'}
+        </a>
+      </div>
+
       {reviews.length > 0 ? (
         <>
           {reviews.map((review) => {
-            const updatedAt = moment(review.updatedAt).tz("Asia/Bangkok").format("YYYY-MM-DD HH:mm:ss");
-
             return (
-              <div key={review._id} className="flex flex-col md:flex-row bg-gray-200 mb-3 rounded-lg p-2">
+              <div key={review._id} className="flex flex-col md:flex-row mb-3 rounded-lg p-4 shadow-lg border border-solid">
                 <div className="flex-1">
                   <h3>
-                    <a href={`/home/animeDetail/${review.animeId}`}>{review.animeName}</a>
+                    <a href={`/home/animeDetail/${review.animeId}`} className='hover:underline font-bold'>{review.animeName}</a>
                   </h3>
-                  <p><strong>Score:</strong> {review.score}/5</p>
-                  <p>{review.text}</p>
-                  <div className="flex">
-                    <p>Updated At: {updatedAt}</p>
+                  <div className='min-h-16 my-2 mx-2'>
+                    <p >{review.text}</p>
+                  </div>
+                  <div className="flex items-center mt-4 h-10">
+                    <span className="font-semibold">Ripeness Level {review.score}</span>
+                    <img src={`/bananaScore/${review.score}.png`} alt="Rating" className="w-16 mr-1" />
+                  </div>
+                  <div className="flex text-xs text-gray-500">
+                    <p>Created: {moment(review.createdAt).fromNow()}</p>
                   </div>
                 </div>
-                <div className="flex justify-center">
+                <div>
                   <img src={review.animePic} alt={review.animeName} className="w-28 h-auto object-cover rounded-2xl" />
                 </div>
               </div>
@@ -97,18 +135,12 @@ function OtherUserReviews() {
 
 export default function OtherUserProfile() {
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6 px-5 min-w-80">
-      <div className="w-full mx-auto">
-        <h1 className="text-2xl font-bold text-center lg:text-end pr-5 pb-2">Profile</h1>
-        <div className="h-[95%] p-5 border-b-2 border-solid border-black lg:border-b-0 lg:border-r-2">
-          <OtherUserProfileInfo />
-        </div>
+    <div className="grid grid-cols-1 pt-5 h-[95%] lg:grid-cols-3 px-5 min-w-80">
+      <div className="w-full p-5 lg:col-span-1">
+        <OtherUserProfileInfo />
       </div>
-      <div className='lg:col-span-2'>
-        <h1 className="text-2xl font-bold mt-5 text-center lg:mt-0 lg:text-end pr-5 pb-2">Reviews</h1>
-        <div className="max-h-[574px] overflow-y-auto bg-gray-100 p-4 rounded-lg">
-          <OtherUserReviews />
-        </div>
+      <div className="lg:col-span-2 h-[574px] overflow-y-auto p-6 rounded-xl shadow-lg no-scrollbar border border-solid">
+        <OtherUserReviews />
       </div>
     </div>
   );
