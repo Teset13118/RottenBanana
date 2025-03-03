@@ -20,6 +20,16 @@ export async function FetchAnimeSeasonWinter(){
   }
 };
 
+export async function FetchAnimeUpComing(){
+  try {
+    const res = await axios.get(`http://localhost:8080/api/anime/season/upcoming`);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching animeList API:", error);
+    throw error;
+  }
+};
+
 export async function FetchAnimeSearch(searchQuery: string){
   try {
     const res = await axios.get(`http://localhost:8080/api/anime/search/${searchQuery}`);

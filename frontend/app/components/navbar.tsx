@@ -47,10 +47,10 @@ function ComboBox(){
 
 
   return (
-    <div className="relative w-64">
+    <div className="relative w-[800px]">
       <input
         type="text"
-        className="w-full px-3 py-2 border rounded-lg focus:outline-none"
+        className="w-full px-3 py-2 border rounded-3xl focus:outline-none"
         placeholder="Search Anime"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
@@ -60,10 +60,15 @@ function ComboBox(){
           {animeResults.map((anime) => (
             <li
               key={anime.mal_id}
-              className="p-2 hover:bg-gray-200 cursor-pointer"
+              className="p-2 flex justify-between items-center gap-2 hover:bg-gray-200 cursor-pointer"
               onClick={() => handleClick(anime.mal_id)}
             >
               {anime.title}
+              <img
+                src={anime.images.jpg.image_url}
+                alt={anime.title}
+                className="w-12 h-12 object-cover rounded-md"
+              />
             </li>
           ))}
         </ul>
@@ -77,7 +82,10 @@ export default function Navbar() {
   const [user, setUser] = useState<User | null>(null); // For storing user info
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // For tracking login status
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [themeOpen, setThemeOpen] = useState(false);
   const router = useRouter();
+  
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -105,18 +113,23 @@ export default function Navbar() {
       setErrorMessage('Error during logout');
     }
   };
+
+  const toggleDropdown = () => {
+    setThemeOpen(!themeOpen);
+  };
   
   return (
     <header className="text-gray-800 bg-[#FFC300] body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        <a className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
-          <span className="text-xl">Rotten Bananas</span>
+        <a className="flex title-font font-medium items-center text-white mb-4 md:mb-0" href="/">
+          <span className="text-xl font-bold mr-5 hover:text-white transition-colors duration-300">
+            Rotten Bananas
+          </span>
         </a>
-        <div className="search-box ml-10">
+        <div className="flex ml-10 items-center justify-center">
           <ComboBox />
         </div>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <>
           {!isLoggedIn ? (
             <>
               <>
@@ -125,19 +138,53 @@ export default function Navbar() {
               </>
             </>
           ) : (
-            <>
-              <>
-                <a className="mr-5 hover:text-white" href="/">home</a>
-                {/* <span>Hello, {user?.username}</span> */}
-                <a className="mr-5 hover:text-white" href="/profile">Profile</a>
-              </>
-              <button onClick={handleLogout} className="inline-flex items-center bg-[#FF0000] border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Logout</button>
-            </>
+            <div className="relative">
+              {/* รูปโปรไฟล์ */}
+              <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
+                <img
+                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                  alt="profilePic"
+                  className="rounded-full size-10 border hover:border-gray-300"
+                />
+              </button>
+
+              {isOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg overflow-hidden border">
+                  <a href="/profile" className="block px-4 py-2 hover:bg-gray-200">
+                    Profile
+                  </a>
+                  <hr />
+
+                  {/* ยังใช้งานไม่ได้ */}
+                  <div className="relative">
+                    <button onClick={() => setThemeOpen(!themeOpen)} className="w-full px-4 py-2 hover:bg-gray-200 flex justify-between items-center">
+                      Theme <span>❯</span>
+                    </button>
+
+                    {themeOpen && (
+                      <div className="absolute left-full top-0 ml-2 w-32 bg-white shadow-lg rounded-md border">
+                        <button className="block w-full text-left px-4 py-2 hover:bg-gray-200">
+                          Dark
+                        </button>
+                        <button className="block w-full text-left px-4 py-2 hover:bg-gray-200">
+                          Light
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  <hr/>
+
+                  <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600">
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           )}
+          <>
+            {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
           </>
-          {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
         </nav>
-        
       </div>
     </header>
   );

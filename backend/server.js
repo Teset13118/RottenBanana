@@ -26,7 +26,7 @@ app.use("/api/user", userRoutes);
 //slide anime season now
 app.get('/api/anime/season/now', async (req, res) => {
   try {
-    const response = await axios.get('https://api.jikan.moe/v4/seasons/now?limit=5');
+    const response = await axios.get('https://api.jikan.moe/v4/seasons/now?limit=10');
     res.json(response.data.data);
   } catch (error) {
     console.error('Error fetching data from Jikan API ayo:', error.message);
@@ -46,7 +46,7 @@ app.get('/api/anime/season/2024/winter', async (req, res) => {
 });
 
 //summer
-app.get('/api/anime/top', async (req, res) => {
+app.get('/api/anime/season/2024/summer', async (req, res) => {
   try {
     const response = await axios.get('https://api.jikan.moe/v4/seasons/2024/summer?limit=10');
     res.json(response.data.data);
@@ -57,7 +57,7 @@ app.get('/api/anime/top', async (req, res) => {
 });
 
 //fall
-app.get('/api/anime/top', async (req, res) => {
+app.get('/api/anime/season/2024/fall', async (req, res) => {
   try {
     const response = await axios.get('https://api.jikan.moe/v4/seasons/2024/fall?limit=10');
     res.json(response.data.data);
@@ -68,9 +68,19 @@ app.get('/api/anime/top', async (req, res) => {
 });
 
 //spring
-app.get('/api/anime/top', async (req, res) => {
+app.get('/api/anime/season/2024/spring', async (req, res) => {
   try {
     const response = await axios.get('https://api.jikan.moe/v4/seasons/2024/spring?limit=10');
+    res.json(response.data.data);
+  } catch (error) {
+    console.error('Error fetching data from Jikan API ayo:', error.message);
+    res.status(500).json({ error: 'Failed to fetch data from Jikan API' });
+  }
+});
+
+app.get('/api/anime/season/upcoming', async (req, res) => {
+  try {
+    const response = await axios.get(`https://api.jikan.moe/v4/seasons/upcoming?limit=10`);
     res.json(response.data.data);
   } catch (error) {
     console.error('Error fetching data from Jikan API ayo:', error.message);
