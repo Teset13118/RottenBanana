@@ -2,9 +2,10 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 
-import { postReview } from '@/lib/reviewApi';
+import { postReview } from '@/app/api/reviewApi';
 import { PostReviewSkeleton} from '@/app/components/skeletons/animeDetailSkeleton';
 
+//input สำหรับ review และ ให้คะแนน
 export default function PostReview({ hasReviewed, fetchData }: { hasReviewed: boolean; fetchData: () => void; }) {
     const { id: animeId } = useParams() as { id: string };
     const [text, setText] = useState<string>("");

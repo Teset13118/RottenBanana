@@ -1,5 +1,5 @@
-import OtherUserProfileInfo from "@/app/components/otherProfile/otherProfileInfo";
-import OtherUserReviews from "@/app/components/otherProfile/otherReviews";
+import OtherUserProfileInfo from "@/app/components/profiles/otherUserProfile/otherProfileInfo";
+import OtherUserReviews from "@/app/components/profiles/otherUserProfile/otherReviews";
 
 
 export default function OtherUserProfile() {

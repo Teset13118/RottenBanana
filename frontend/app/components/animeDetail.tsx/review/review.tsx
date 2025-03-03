@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import moment from "moment-timezone";
 
 import { Review} from '@/types/type';
-import { fetchUserProfile } from '@/lib/userApi';
-import { FetchReviewList, updateReview, deleteReview} from '@/lib/reviewApi';
+import { fetchUserProfile } from '@/app/api/userApi';
+import { FetchReviewList, updateReview, deleteReview} from '@/app/api/reviewApi';
 import { ReviewsSkeleton } from '@/app/components/skeletons/animeDetailSkeleton';
 import ReviewStatistics from './reviewStatistic';
 import PostReview from './postReview';
@@ -20,7 +20,7 @@ export default function Reviews() {
   const [loading, setLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
-  //modal
+  //สำหรับ modal
   const [hasReviewed, setHasReviewed] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
@@ -181,7 +181,7 @@ export default function Reviews() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg">
             <h3 className="text-lg font-bold">Edit Review</h3>
-            <input type="text" value={editText} onChange={(e) => setEditText(e.target.value)} className="border p-2 w-full mt-2" />
+            <textarea value={editText} onChange={(e) => setEditText(e.target.value)} className="border p-2 w-full mt-2" />
             <h5 className='mt-4 font-bold'>Your new Banana ripeness:</h5>
             {/* Banana Rating */}
             <div className="flex justify-center mt-1 space-x-2">
@@ -199,8 +199,8 @@ export default function Reviews() {
               ))}
             </div>
             <div className="mt-4 flex justify-end">
-              <button onClick={() => handleUpdate(editingReview!)} className="bg-green-500 text-white px-3 py-1 mr-2">Save</button>
-              <button onClick={() => setIsModalOpen(false)} className="bg-gray-500 text-white px-3 py-1">Cancel</button>
+              <button onClick={() => handleUpdate(editingReview!)} className="bg-green-500 text-white px-3 py-1 mr-2 rounded-lg">Save</button>
+              <button onClick={() => setIsModalOpen(false)} className="bg-gray-500 text-white px-3 py-1 rounded-lg">Cancel</button>
             </div>
           </div>
         </div>

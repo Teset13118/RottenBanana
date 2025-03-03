@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 import { User } from '@/types/type';
-import { fetchUserProfile, updateUserProfile } from '@/lib/userApi';
+import { fetchUserProfile, updateUserProfile } from '@/app/api/userApi';
 import { ProfileInfoSkeleton } from '@/app/components/skeletons/profileSkeletons';
 
 export default function ProfileInfo() {
@@ -51,11 +51,11 @@ export default function ProfileInfo() {
 
   return (
     <div className="flex flex-col items-center">
-      <div className='rounded-full border-solid border-8 p-7'>
+      <div>
         <img
           src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
           alt="profilePic"
-          className="rounded-full size-52"
+          className="rounded-full size-72"
         />
       </div>
 

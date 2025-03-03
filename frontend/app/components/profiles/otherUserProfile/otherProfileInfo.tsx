@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
-import { fetchOtherUserProfile } from '@/lib/userApi';
+import { fetchOtherUserProfile } from '@/app/api/userApi';
 import { User } from '@/types/type';
 import { OtherUserProfileInfoSkeleton } from "@/app/components/skeletons/profileSkeletons";
 
@@ -37,11 +37,11 @@ export default function OtherUserProfileInfo() {
     return (
       <>
         <div className='flex flex-col items-center'>
-          <div className='rounded-full border-solid border-8 p-7'>
+          <div>
             <img
               src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
               alt="profilePic"
-              className="rounded-full size-52"
+              className="rounded-full size-72"
             />
           </div>
         </div>

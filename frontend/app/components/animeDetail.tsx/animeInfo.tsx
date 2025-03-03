@@ -3,7 +3,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 
 import { Anime} from '@/types/type';
-import { FetchAnime } from '@/lib/animeApi';
+import { FetchAnime } from '@/app/api/animeApi';
 import { AnimeInfoSkeleton } from '@/app/components/skeletons/animeDetailSkeleton';
 
 
@@ -41,7 +41,7 @@ export default function AnimeInfo() {
     <div>
       {anime ? (
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 p-4 w-full">
-          {/* Anime Image Section */}
+          {/* รูป anime */}
           <div className="col-span-1 md:col-span-2 lg:col-span-2 md:row-span-5 lg:row-span-5">
             <img
               src={anime.images.jpg.large_image_url}
@@ -50,7 +50,7 @@ export default function AnimeInfo() {
             />
           </div>
 
-          {/* Anime Title and Genre Section */}
+          {/* ชื่อ anime และ รายละเอียด anime */}
           <div className="col-span-1 row-span-2 md:col-span-2 lg:col-span-2 md:col-start-3 lg:col-start-3 md:row-span-2 lg:row-span-2 bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center">
             <h1 className="text-2xl md:text-3xl font-semibold mb-4">{anime.title}</h1>
             <p className="text-base md:text-lg mb-2">
@@ -60,7 +60,7 @@ export default function AnimeInfo() {
             <p className="text-sm md:text-md text-gray-600">{anime.rating}</p>
           </div>
 
-          {/* YouTube Trailer Section */}
+          {/* YouTube Trailer */}
           <div className="col-span-1 md:col-span-2 lg:col-span-2 md:col-start-3 lg:col-start-5 md:row-span-3 lg:row-span-2 h-full">
             <div className="relative w-full h-full min-h-[200px]">
               <iframe
@@ -73,7 +73,7 @@ export default function AnimeInfo() {
             </div>
           </div>
 
-          {/* Anime Synopsis Section */}
+          {/* เรื่องย่อ */}
           <div className="col-span-1 md:col-span-4 lg:col-span-4 md:col-start-1 lg:col-start-3 md:row-span-2 lg:row-span-3 bg-white p-6 rounded-lg shadow-lg h-full flex flex-col">
             <h2 className="text-xl md:text-2xl font-semibold mb-4">Synopsis</h2>
             <p className="text-sm md:text-md text-gray-700 flex-grow">{anime.synopsis}</p>

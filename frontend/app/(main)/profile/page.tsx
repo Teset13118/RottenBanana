@@ -1,5 +1,5 @@
-import ProfileInfo from '@/app/components/profile/profileInfo';
-import UserReviews from '@/app/components/profile/userReviews';
+import ProfileInfo from '@/app/components/profiles/userProfile/profileInfo';
+import UserReviews from '@/app/components/profiles/userProfile/userReviews';
 
 
 export default function Profile() {

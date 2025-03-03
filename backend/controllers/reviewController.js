@@ -11,10 +11,10 @@ exports.getReviewList = async (req, res) => {
 }
 exports.postReview = async (req, res) => {
   try {
-    const { animeId, animeName, animePic ,text, score } = req.body;
+    const { animeId, animeName, animePic, text, score } = req.body;
     const userId = req.user.id;
 
-    const newReview = new Review({ userId, animeId, animeName, animePic ,text, score });
+    const newReview = new Review({ userId, animeId, animeName, animePic, text, score });
     await newReview.save();
 
     res.status(201).json({ message: "User Review successfully" });
@@ -30,7 +30,7 @@ exports.updateReview = async (req, res) => {
     const userId = req.user.id; // ดึง user ID จาก JWT
 
     const review = await Review.findById(id);
-    if (!review) return res.status(404).json({ message: "Review not found"});
+    if (!review) return res.status(404).json({ message: "Review not found" });
 
     // ตรวจสอบว่าเป็นเจ้าของคอมเมนต์หรือไม่
     if (review.userId.toString() !== userId) {
@@ -68,7 +68,7 @@ exports.deleteReview = async (req, res) => {
   }
 };
 
-exports.getUserReview = async (req,res) => {
+exports.getUserReview = async (req, res) => {
   try {
     const { id } = req.params;
     const userReview = await Review.find({ userId: id }).populate("userId", "username");

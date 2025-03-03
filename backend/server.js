@@ -3,9 +3,12 @@ const axios = require('axios');
 const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const bodyParser = require('body-parser');
+
 const authRoutes = require("./routes/authRoutes");
 const reviewRoutes = require("./routes/ReviewRoutes");
-const bodyParser = require('body-parser');
+const userRoutes = require("./routes/๊userRoutes")
+
 
 require("dotenv").config();
 const app = express();
@@ -15,6 +18,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/review", reviewRoutes);
+app.use("/api/user", userRoutes);
 
 
 

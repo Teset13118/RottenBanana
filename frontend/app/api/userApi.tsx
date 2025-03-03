@@ -5,7 +5,7 @@ export async function fetchUserProfile() {
         const token = sessionStorage.getItem('token');
         if (!token) return null;
 
-        const res = await axios.get('http://localhost:8080/api/auth/profile',
+        const res = await axios.get('http://localhost:8080/api/user/profile',
             { headers: { Authorization: `Bearer ${token}` } }
         );
         return res.data;
@@ -16,7 +16,7 @@ export async function fetchUserProfile() {
 
 export async function fetchOtherUserProfile(userId: string) {
     try {
-        const res = await axios.get(`http://localhost:8080/api/auth/profile/${userId}`);
+        const res = await axios.get(`http://localhost:8080/api/user/profile/${userId}`);
         return res.data;
     } catch (error) {
         throw error;
@@ -40,7 +40,7 @@ export async function LogoutUser() {
 export async function updateUserProfile(nickname: string, about: string) {
     try {
         const token = sessionStorage.getItem('token');
-        await axios.put('http://localhost:8080/api/auth/update/profile', 
+        await axios.put('http://localhost:8080/api/user/update/profile', 
             {nickname, about},
             { headers: { Authorization: `Bearer ${token}` } }
         );

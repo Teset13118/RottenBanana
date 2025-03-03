@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { Anime } from '@/types/type';
-import { FetchAnimeListSeasonNow, FetchAnimeSeasonWinter } from '@/lib/animeApi';
+import { FetchAnimeListSeasonNow, FetchAnimeSeasonWinter } from '@/app/api/animeApi';
 import { AnimeCard } from "@/app/components/animeCard";
 
 

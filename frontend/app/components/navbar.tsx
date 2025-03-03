@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {  Anime, User }  from '@/types/type';
-import { fetchUserProfile, LogoutUser } from '@/lib/userApi';
-import { FetchAnimeSearch } from '@/lib/animeApi';
+import { fetchUserProfile, LogoutUser } from '@/app/api/userApi';
+import { FetchAnimeSearch } from '@/app/api/animeApi';
 import axios from "axios";
 import "@/styles/globals.css";
 
