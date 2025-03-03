@@ -64,3 +64,8 @@
    - **MONGO_URL**: URL สำหรับเชื่อมต่อ MongoDB
    - **JWT_SECRET**: รหัสที่ใช้ในกาเข้ารหัสและตรวจสอบ JWT
 
+# API Endpoints
+
+## 1. Authentication
+
+
