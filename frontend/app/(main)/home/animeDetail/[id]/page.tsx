@@ -5,7 +5,7 @@ import Reviews from '@/app/components/animeDetail.tsx/review/review';
 export default function Info() {
   return (
     <>
-      <div>
+      <div className='bg-gray-900'>
         <AnimeInfo />
         <Reviews />
       </div>

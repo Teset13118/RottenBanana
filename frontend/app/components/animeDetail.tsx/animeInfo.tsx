@@ -51,13 +51,13 @@ export default function AnimeInfo() {
           </div>
 
           {/* ชื่อ anime และ รายละเอียด anime */}
-          <div className="col-span-1 row-span-2 md:col-span-2 lg:col-span-2 md:col-start-3 lg:col-start-3 md:row-span-2 lg:row-span-2 bg-white p-6 rounded-lg shadow-lg flex flex-col justify-center">
+          <div className="col-span-1 row-span-2 md:col-span-2 lg:col-span-2 md:col-start-3 lg:col-start-3 md:row-span-2 lg:row-span-2 bg-gray-800 bg-opacity-80 text-white p-6 rounded-lg shadow-lg flex flex-col justify-center">
             <h1 className="text-2xl md:text-3xl font-semibold mb-4">{anime.title}</h1>
             <p className="text-base md:text-lg mb-2">
               <strong>Genres:</strong> {anime.genres.map(genre => genre.name).join(', ')}
             </p>
             <p className="text-base md:text-lg mb-2">{anime.season} {anime.year}</p>
-            <p className="text-sm md:text-md text-gray-600">{anime.rating}</p>
+            <p className="text-sm md:text-md text-[#E73D1D]">{anime.rating}</p>
           </div>
 
           {/* YouTube Trailer */}
@@ -74,9 +74,9 @@ export default function AnimeInfo() {
           </div>
 
           {/* เรื่องย่อ */}
-          <div className="col-span-1 md:col-span-4 lg:col-span-4 md:col-start-1 lg:col-start-3 md:row-span-2 lg:row-span-3 bg-white p-6 rounded-lg shadow-lg h-full flex flex-col">
+          <div className="col-span-1 md:col-span-4 lg:col-span-4 md:col-start-1 lg:col-start-3 md:row-span-2 lg:row-span-3 bg-gray-800 bg-opacity-80 text-white p-6 rounded-lg shadow-lg h-full flex flex-col">
             <h2 className="text-xl md:text-2xl font-semibold mb-4">Synopsis</h2>
-            <p className="text-sm md:text-md text-gray-700 flex-grow">{anime.synopsis}</p>
+            <p className="text-sm md:text-md text-white flex-grow">{anime.synopsis}</p>
           </div>
         </div>
       ) : (

@@ -87,14 +87,14 @@ export default function Reviews() {
       </div>
 
       {/* Right Panel (Reviews List) */}
-      <div className="lg:col-span-2 p-6 rounded-lg shadow-lg bg-white self-start">
+      <div className="lg:col-span-2 p-6 rounded-lg shadow-lg bg-gray-800 bg-opacity-80 text-white self-start">
         <div className='flex justify-between'>
           <h2 className="text-xl font-semibold mb-4">Reviews</h2>
           <div className="mb-4">
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 cursor-pointer">
               <option value="asc">Newest</option>
               <option value="desc">Oldest</option>
             </select>
@@ -106,7 +106,7 @@ export default function Reviews() {
           reviews.map((review) => (
             <div
               key={review._id}
-              className="border p-4 pb-1 mb-4 relative border-solid rounded-lg shadow-lg bg-white">
+              className="border p-4 pb-1 mb-4 relative border-solid rounded-lg shadow-lg bg-gray-800 bg-opacity-80 text-white">
               <div className="flex items-center">
                 <a
                   href={`/profile/otherUserProfile/${review.userId._id}`}
@@ -118,7 +118,7 @@ export default function Reviews() {
               </div>
 
               <div className="my-3">
-                <p className="text-gray-700">{review.text}</p>
+                <p className="text-[#03BD70]">{review.text}</p>
               </div>
 
               <div className="flex justify-between items-center mt-4">
@@ -147,21 +147,21 @@ export default function Reviews() {
                     onClick={() =>
                       setDropdownOpen(dropdownOpen === review._id ? null : review._id)
                     }
-                    className="size-10 p-1 rounded-full hover:bg-gray-100 font-bold"
+                    className="size-10 p-1 rounded-full hover:bg-gray-900 font-bold"
                   >
                     &#x22EE;
                   </button>
                   {dropdownOpen === review._id && (
-                    <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg z-10">
+                    <div className="absolute right-0 mt-2 w-32 bg-gray-900 border rounded shadow-lg z-10">
                       <button
                         onClick={() => handleEdit(review)}
-                        className="block w-full text-left px-4 py-2 hover:bg-gray-200 transition-colors"
+                        className="block w-full text-left px-4 py-2 hover:bg-gray-800 transition-colors"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(review._id)}
-                        className="block w-full text-left px-4 py-2 hover:bg-gray-200 text-red-500 transition-colors"
+                        className="block w-full text-left px-4 py-2 hover:bg-red-800 text-red-500 transition-colors"
                       >
                         Delete
                       </button>
@@ -179,9 +179,9 @@ export default function Reviews() {
       {/* Edit Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-lg">
+          <div className="bg-[#FEC81A] p-6 rounded shadow-lg">
             <h3 className="text-lg font-bold">Edit Review</h3>
-            <textarea value={editText} onChange={(e) => setEditText(e.target.value)} className="border p-2 w-full mt-2" />
+            <textarea value={editText} onChange={(e) => setEditText(e.target.value)} className="border border-black rounded-md p-2 w-full mt-2 bg-[#ecbe29]" />
             <h5 className='mt-4 font-bold'>Your new Banana ripeness:</h5>
             {/* Banana Rating */}
             <div className="flex justify-center mt-1 space-x-2">
@@ -199,8 +199,8 @@ export default function Reviews() {
               ))}
             </div>
             <div className="mt-4 flex justify-end">
-              <button onClick={() => handleUpdate(editingReview!)} className="bg-green-500 text-white px-3 py-1 mr-2 rounded-lg">Save</button>
-              <button onClick={() => setIsModalOpen(false)} className="bg-gray-500 text-white px-3 py-1 rounded-lg">Cancel</button>
+              <button onClick={() => handleUpdate(editingReview!)} className="bg-[#03BD70] text-white hover:bg-[#2b8560] px-3 py-1 mr-2 rounded-lg">Save</button>
+              <button onClick={() => setIsModalOpen(false)} className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded-lg">Cancel</button>
             </div>
           </div>
         </div>

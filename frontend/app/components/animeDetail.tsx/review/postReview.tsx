@@ -57,7 +57,7 @@ export default function PostReview({ hasReviewed, fetchData }: { hasReviewed: bo
     }
   
     return (
-      <div className="col-span-1 bg-white p-6 rounded-lg shadow-lg">
+      <div className="col-span-1 bg-gray-800 bg-opacity-80 text-white p-6 rounded-lg shadow-lg">
         <h2 className="text-xl font-semibold mb-4">Post a Review</h2>
         {isAuthenticated ? (
           hasReviewed ? (
@@ -69,7 +69,7 @@ export default function PostReview({ hasReviewed, fetchData }: { hasReviewed: bo
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 required
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border rounded-lg text-gray-800"
               />
               <div>
                 <p className="font-medium">Select your Banana ripeness:</p>

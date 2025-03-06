@@ -57,7 +57,7 @@ export default function ReviewStatistics({ reviews }: { reviews: Review[] }) {
   
   
     return (
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full col-span-1">
+      <div className="bg-gray-800 bg-opacity-80 text-white rounded-lg shadow-lg p-6 w-full col-span-1">
         <h2 className="text-xl font-semibold mb-4">Review Statistics</h2>
   
         <div className="flex items-center justify-between mb-6">
@@ -67,7 +67,7 @@ export default function ReviewStatistics({ reviews }: { reviews: Review[] }) {
           </div>
   
           <div className="text-center">
-            <div className="text-3xl font-bold text-gray-800">{stats.totalReviews}</div>
+            <div className="text-3xl font-bold text-white">{stats.totalReviews}</div>
             <div className="text-sm text-gray-500">Total Reviews</div>
           </div>
         </div>

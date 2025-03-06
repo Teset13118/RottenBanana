@@ -4,19 +4,19 @@ import { Review } from '@/types/type';
 export const ReviewCard = ({ reviews, sortOrder, setSortOrder }: {   reviews: Review[]; sortOrder: 'asc' | 'desc'; setSortOrder: React.Dispatch<React.SetStateAction<'asc' | 'desc'>>; }) => {
         return (
             <>
-            <div className='flex justify-between'>
-              <h2 className="text-xl font-semibold mb-4">Reviews</h2>
-              <div className="mb-4">
-                <select
-                  value={sortOrder}
-                  onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
-                >
-                  <option value="asc">Newest</option>
-                  <option value="desc">Oldest</option>
-                </select>
-              </div>
-            </div>
+                <div className='flex justify-between'>
+                    <h2 className="text-xl font-semibold mb-4">Reviews</h2>
+                    <div className="mb-4">
+                        <select
+                        value={sortOrder}
+                        onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
+                        className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 cursor-pointer"
+                        >
+                        <option value="asc">Newest</option>
+                        <option value="desc">Oldest</option>
+                        </select>
+                    </div>
+                </div>
     
                 {reviews.length > 0 ? (
                     <>
@@ -27,7 +27,7 @@ export const ReviewCard = ({ reviews, sortOrder, setSortOrder }: {   reviews: Re
                                         <h3>
                                             <a href={`/home/animeDetail/${review.animeId}`} className='hover:underline font-bold'>{review.animeName}</a>
                                         </h3>
-                                        <div className='min-h-16 my-2 mx-2'>
+                                        <div className='min-h-16 my-2 text-[#03BD70]'>
                                             <p >{review.text}</p>
                                         </div>
                                         <div className="flex items-center mt-4 h-10">

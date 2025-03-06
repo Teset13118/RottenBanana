@@ -50,12 +50,12 @@ export default function ProfileInfo() {
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center bg-gray-900 text-white">
       <div>
         <img
           src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
           alt="profilePic"
-          className="rounded-full size-72"
+          className="rounded-full size-72 border-4 border-white"
         />
       </div>
 
@@ -63,10 +63,10 @@ export default function ProfileInfo() {
         {!isEditing ? (
           <>
             <p className='font-bold text-2xl'>{user.nickname ? user.nickname : user.username}</p>
-            <p className='text-xl'>{user.username}</p>
-            <p className='text-xl'>{user.email}</p>
+            <p className='text-xl text-gray-400'>{user.username}</p>
+            <p className='text-xl text-gray-400'>{user.email}</p>
             {user.about ?
-              <p className='border-solid border-2 p-2 rounded-lg bg-gray-200 min-h-24 mt-4 text-base'>{user.about || ''}</p>
+              <p className=' border-2 p-2 rounded-lg min-h-24 mt-4 text-base'>{user.about || ''}</p>
               : ""
             }
             <div className='flex w-full justify-center'>
@@ -83,14 +83,14 @@ export default function ProfileInfo() {
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               placeholder="add nickname"
-              className="border p-2 rounded"
+              className="border p-2 rounded text-gray-900"
             />
             <p className='text-base font-bold'>About:</p>
             <textarea
               value={about}
               onChange={(e) => setAbout(e.target.value)}
               placeholder="add about"
-              className="border p-2 rounded"
+              className="border p-2 rounded text-gray-900"
             />
             <div className='flex gap-2'>
               <button onClick={handleSave} className="bg-green-500 text-white px-2 py-1 h-full rounded">

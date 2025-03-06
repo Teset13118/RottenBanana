@@ -50,7 +50,7 @@ function ComboBox(){
     <div className="relative w-[800px]">
       <input
         type="text"
-        className="w-full px-3 py-2 border rounded-3xl focus:outline-none"
+        className="w-full px-3 py-2 border-2 border-[#977810] rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#977810]"
         placeholder="Search Anime"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
@@ -82,8 +82,8 @@ export default function Navbar() {
   const [user, setUser] = useState<User | null>(null); // For storing user info
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // For tracking login status
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [isOpen, setIsOpen] = useState(false);
-  const [themeOpen, setThemeOpen] = useState(false);
+  const [isMainDropdown, setIsMainDropdown] = useState(false);
+  const [isThemeDropdown, setIsThemeDropdown] = useState(false);
   const router = useRouter();
   
 
@@ -114,15 +114,12 @@ export default function Navbar() {
     }
   };
 
-  const toggleDropdown = () => {
-    setThemeOpen(!themeOpen);
-  };
   
   return (
-    <header className="text-gray-800 bg-[#FFC300] body-font">
+    <header className="text-gray-800 bg-[#FEC81A] body-font z-10">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        <a className="flex title-font font-medium items-center text-white mb-4 md:mb-0" href="/">
-          <span className="text-xl font-bold mr-5 hover:text-white transition-colors duration-300">
+        <a className="flex title-font font-medium items-center text-[#E73D1D] mb-4 md:mb-0" href="/">
+          <span className="text-3xl font-bold mr-5 bg-gradient-to-r from-[#E73D1D] to-[#977810] text-transparent bg-clip-text hover:text-[#715f25] transition-colors duration-300">
             Rotten Bananas
           </span>
         </a>
@@ -133,56 +130,70 @@ export default function Navbar() {
           {!isLoggedIn ? (
             <>
               <>
-                <a className="mr-5 hover:text-white" href="/login">Login</a>
-                <a className="mr-5 hover:text-white" href="/register">Register</a>
+                <a className="mr-2 px-4 py-2 bg-[#03BD70] text-white rounded-lg hover:bg-[#2b8560] transition-colors duration-300" href="/login">Login</a>
+                <a className="mr-0 px-4 py-2 bg-[#366fac] text-white rounded-lg hover:bg-[#2a5688] transition-colors duration-300" href="/register">Register</a>
               </>
             </>
           ) : (
             <div className="relative">
               {/* รูปโปรไฟล์ */}
-              <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
+              <button onClick={() => { setIsMainDropdown(!isMainDropdown); setIsThemeDropdown(false); }}
+                className="focus:outline-none"
+              >
                 <img
                   src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                   alt="profilePic"
-                  className="rounded-full size-10 border hover:border-gray-300"
+                  className="rounded-full size-10 border-4 border-white hover:border-[#715f25]"
                 />
               </button>
 
-              {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg overflow-hidden border">
-                  <a href="/profile" className="block px-4 py-2 hover:bg-gray-200">
+              {/* Dropdown เมนูหลัก */}
+              {isMainDropdown && !isThemeDropdown && (
+                <div className="absolute right-[50px] mt-0 top-0 w-48 bg-gray-800 text-white shadow-lg rounded-lg overflow-hidden z-10">
+                  <a href="/profile" className="block px-4 py-2 hover:bg-gray-900">
                     Profile
                   </a>
                   <hr />
-
-                  {/* ยังใช้งานไม่ได้ */}
-                  <div className="relative">
-                    <button onClick={() => setThemeOpen(!themeOpen)} className="w-full px-4 py-2 hover:bg-gray-200 flex justify-between items-center">
-                      Theme <span>❯</span>
-                    </button>
-
-                    {themeOpen && (
-                      <div className="absolute left-full top-0 ml-2 w-32 bg-white shadow-lg rounded-md border">
-                        <button className="block w-full text-left px-4 py-2 hover:bg-gray-200">
-                          Dark
-                        </button>
-                        <button className="block w-full text-left px-4 py-2 hover:bg-gray-200">
-                          Light
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                  <hr/>
-
-                  <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600">
+                  <button
+                    onClick={() => {
+                      setIsThemeDropdown(true);
+                      setIsMainDropdown(false);
+                    }}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-900 flex justify-between"
+                  >
+                    Theme <span>❯</span>
+                  </button>
+                  <hr />
+                  <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-red-700 text-white">
                     Logout
+                  </button>
+                </div>
+              )}
+
+              {/* Dropdown Theme */}
+              {isThemeDropdown && (
+                <div className="absolute right-[50px] mt-0 top-0 w-48 bg-gray-800 text-white shadow-lg rounded-lg overflow-hidden z-10">
+                  <button
+                    onClick={() => {
+                      setIsThemeDropdown(false);
+                      setIsMainDropdown(true);
+                    }}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-900"
+                  >
+                    ❮
+                  </button>
+                  <button className="block w-full text-left px-4 py-2 hover:bg-gray-900">
+                    Dark
+                  </button>
+                  <button className="block w-full text-left px-4 py-2 hover:bg-gray-900">
+                    Light
                   </button>
                 </div>
               )}
             </div>
           )}
           <>
-            {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+            {errorMessage && <div className="text-[#E73D1D]">{errorMessage}</div>}
           </>
         </nav>
       </div>

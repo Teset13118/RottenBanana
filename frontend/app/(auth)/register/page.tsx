@@ -34,14 +34,12 @@ export default function Register () {
   };
 
   return (
-    <section className="text-gray-400 bg-gray-900 body-font min-h-screen">
-    <div className="container px-5 py-24 mx-auto flex justify-center items-center">
-      
-      <div className="lg:w-1/3 md:w-1/2 bg-gray-800 bg-opacity-50 rounded-lg p-8 flex flex-col w-full mt-10 md:mt-0">
-        <h2 className="text-white text-lg font-medium title-font mb-5 text-center">Sign Up</h2>
+    <section className="text-gray-100 bg-gray-900 body-font min-h-screen flex justify-center items-center">
+      <div className="w-full max-w-md bg-gray-800 bg-opacity-75 rounded-lg p-8 shadow-lg">
+        <h2 className="text-white text-xl font-semibold text-center mb-5">Sign Up</h2>
         <form onSubmit={handleSubmit} className="flex flex-col">
           <div className="relative mb-4">
-            <label htmlFor="full-name" className="leading-7 text-sm text-gray-400">
+            <label htmlFor="full-name" className="block text-sm text-gray-300 mb-1">
               Username
             </label>
             <input
@@ -56,7 +54,7 @@ export default function Register () {
             />
           </div>
           <div className="relative mb-4">
-            <label htmlFor="email" className="leading-7 text-sm text-gray-400">
+            <label htmlFor="email" className="block text-sm text-gray-300 mb-1">
               Email
             </label>
             <input
@@ -71,7 +69,7 @@ export default function Register () {
             />
           </div>
           <div className="relative mb-4">
-            <label htmlFor="password" className="leading-7 text-sm text-gray-400">
+            <label htmlFor="password" className="block text-sm text-gray-300 mb-1">
               Password
             </label>
             <input
@@ -86,7 +84,7 @@ export default function Register () {
             />
           </div>
           <div className="relative mb-4">
-            <label htmlFor="password" className="leading-7 text-sm text-gray-400">
+            <label htmlFor="password" className="block text-sm text-gray-300 mb-1">
               Confirm Password
             </label>
             <input
@@ -100,15 +98,13 @@ export default function Register () {
               required
             />
           </div>
-          <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+          <button className="text-gray-900 bg-[#FEC81A] border-0 py-2 px-8 focus:outline-none hover:bg-yellow-500 rounded text-lg font-semibold transition duration-300">
             Sign Up
           </button>
-          {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+          {errorMessage && <div className="text-[#E73D1D] text-sm mt-3">{errorMessage}</div>}
         </form>
-        
-        <p className="text-xs mt-3 text-center">Already have an account? <a href="/login" className="text-white underline">Log in</a></p>
+        <p className="text-xs mt-3 text-center text-gray-300">Already have an account? <a href="/login" className="text-[#FEC81A] underline">Log in</a></p>
       </div>
-    </div>
     </section>
   );
 };
