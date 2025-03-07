@@ -5,6 +5,7 @@ import { User } from '@/types/type';
 import { fetchUserProfile, updateUserProfile } from '@/app/api/userApi';
 import { ProfileInfoSkeleton } from '@/app/components/skeletons/profileSkeletons';
 
+// รายละเอียดข้อมูลผู้ใช้
 export default function ProfileInfo() {
   const [user, setUser] = useState<User | null>(null);
   const [isEditing, setIsEditing] = useState(false);

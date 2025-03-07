@@ -24,15 +24,6 @@ export async function FetchReviewList(id: string, sortOrder: 'asc' | 'desc' = 'a
   }
 };
 
-// export async function FetchUserReview(id: string){
-//   try {
-//     const res = await axios.get(`http://localhost:8080/api/review/getUserReview/${id}`);
-//     return res.data;
-//   } catch (error) {
-//     console.error("Error fetching anime info:", error);
-//     throw error;
-//   }
-// };
 
 export async function FetchUserReview(id: string, sortOrder: 'asc' | 'desc' = 'asc') {
   try {

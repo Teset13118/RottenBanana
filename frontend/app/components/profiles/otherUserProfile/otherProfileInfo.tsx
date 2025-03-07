@@ -6,6 +6,7 @@ import { fetchOtherUserProfile } from '@/app/api/userApi';
 import { User } from '@/types/type';
 import { OtherUserProfileInfoSkeleton } from "@/app/components/skeletons/profileSkeletons";
 
+// รายละเอียดข้อมูลของผู้ใช้คนอื่น
 export default function OtherUserProfileInfo() {
     const { userId } = useParams() as { userId: string };
     const [user, setUser] = useState<User | null>(null);

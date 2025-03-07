@@ -1,6 +1,7 @@
 import moment from "moment-timezone";
 import { Review } from '@/types/type';
 
+// รูปแบบของ review ที่ใช้บ่อย
 export const ReviewCard = ({ reviews, sortOrder, setSortOrder }: {   reviews: Review[]; sortOrder: 'asc' | 'desc'; setSortOrder: React.Dispatch<React.SetStateAction<'asc' | 'desc'>>; }) => {
         return (
             <>

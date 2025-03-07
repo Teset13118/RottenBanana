@@ -10,6 +10,7 @@ import { ReviewsSkeleton } from '@/app/components/skeletons/animeDetailSkeleton'
 import ReviewStatistics from './reviewStatistic';
 import PostReview from './postReview';
 
+// แสดง ช่องรีวิว สถิติ และ review ทั้งหมด
 export default function Reviews() {
   const { id } = useParams() as { id: string };
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -33,7 +34,7 @@ export default function Reviews() {
 
       if (userData) {
         setUserId(userData._id);
-        setHasReviewed(reviewData.some((review) => review.userId._id === userData._id));
+        setHasReviewed(reviewData.some((review) => review.userId._id === userData._id)); //เช็คว่าผู้ใช้ review ไปแล้วหรือยัง
       }
     } catch (error) {
       console.error("Error fetching review list or user profile:", error);
@@ -82,11 +83,12 @@ export default function Reviews() {
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 p-4 lg:auto-rows-min">
       {/* Left Panel */}
       <div className="flex flex-col gap-4 lg:col-span-1">
+        {/* เรียกทีหลังเพราะต้องการให้ fetch ข้อมูล review ทั้งหมดก่อนที่จะมีการตรวจเช็ค */}
         <PostReview hasReviewed={hasReviewed} fetchData={fetchData} />
         <ReviewStatistics reviews={reviews} />
       </div>
 
-      {/* Right Panel (Reviews List) */}
+      {/* Right Panel แสดง review ทั้งหมด */}
       <div className="lg:col-span-2 p-6 rounded-lg shadow-lg bg-gray-800 bg-opacity-80 text-white self-start">
         <div className='flex justify-between'>
           <h2 className="text-xl font-semibold mb-4">Reviews</h2>
@@ -140,7 +142,7 @@ export default function Reviews() {
                 </div>
               </div>
 
-              {/* User actions dropdown */}
+              {/* dropdown สำหรับลบหรือแก้ไข review หากผู้ใช้เป็นเจ้าของ */}
               {userId === review.userId._id && (
                 <div className="absolute top-2 right-2">
                   <button

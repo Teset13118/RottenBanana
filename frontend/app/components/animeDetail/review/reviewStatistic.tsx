@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Review, Statistics } from '@/types/type';
 import { ReviewStatisticsSkeleton } from '@/app/components/skeletons/animeDetailSkeleton';
 
+// สถิติของรีวิวทั้งหมดใน อนิเมะเรื่องนั้นๆ
 export default function ReviewStatistics({ reviews }: { reviews: Review[] }) {
     const [loading, setLoading] = useState(true);
   

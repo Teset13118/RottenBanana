@@ -7,6 +7,7 @@ import { Review } from '@/types/type';
 import { OtherUserReviewSkeleton } from "@/app/components/skeletons/profileSkeletons";
 import { ReviewCard } from '../ReviewsCard';
 
+// รีวิวทั้งหมดของผู้ใช้คนอื่น
 export default function OtherUserReviews() {
     const { userId } = useParams() as { userId: string };
     const [reviews, setReviews] = useState<Review[]>([]);

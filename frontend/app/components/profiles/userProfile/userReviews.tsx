@@ -6,6 +6,7 @@ import { FetchUserReview } from '@/app/api/reviewApi';
 import { UserReviewSkeleton } from '@/app/components/skeletons/profileSkeletons';
 import { ReviewCard } from '../ReviewsCard';
 
+// รีวิวทั้งหมดของผู้ใช้
 export default function UserReviews() {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(true);

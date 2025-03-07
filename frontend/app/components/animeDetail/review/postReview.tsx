@@ -59,11 +59,13 @@ export default function PostReview({ hasReviewed, fetchData }: { hasReviewed: bo
     return (
       <div className="col-span-1 bg-gray-800 bg-opacity-80 text-white p-6 rounded-lg shadow-lg">
         <h2 className="text-xl font-semibold mb-4">Post a Review</h2>
+        {/* เงื่อนไขเช็คว่ามีการ authen และ เช็คว่ารีวิวแล้วหรือยัง */}
         {isAuthenticated ? (
           hasReviewed ? (
             <p className="text-red-500 font-medium">You have already posted a review.</p>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* ที่เขียนการรีวิว */}
               <textarea
                 placeholder="Write your review..."
                 value={text}
@@ -72,6 +74,7 @@ export default function PostReview({ hasReviewed, fetchData }: { hasReviewed: bo
                 className="w-full p-3 border rounded-lg text-gray-800"
               />
               <div>
+                {/* ส่วนของการให้คะแนน */}
                 <p className="font-medium">Select your Banana ripeness:</p>
                 <div className="flex gap-2">
                   {[5, 4, 3, 2, 1].map((num) => (
