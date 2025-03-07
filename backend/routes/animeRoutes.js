@@ -9,7 +9,11 @@ router.get("/season/2024/summer", getSeasonSummer);
 router.get("/season/2024/fall", getSeasonFall);
 router.get("/season/2024/spring", getSeasonSpring);
 router.get("/season/upcoming", getUpcoming);
+<<<<<<< Updated upstream
 router.get("/search/:searchquery", getAnimeSearch);
+=======
+router.get("/season/2024/:searchquery", getAnimeSearch);
+>>>>>>> Stashed changes
 router.get("/:id", getAnimeDetail);
 
 module.exports = router;

@@ -150,7 +150,7 @@ export default function Navbar() {
               {/* Dropdown เมนูหลัก */}
               {isMainDropdown && !isThemeDropdown && (
                 <div className="absolute right-[50px] mt-0 top-0 w-48 bg-gray-800 text-white shadow-lg rounded-lg overflow-hidden z-10">
-                  <a href="/profile" className="block px-4 py-2 hover:bg-gray-900">
+                  <a href="/profile/UserProfile" className="block px-4 py-2 hover:bg-gray-900">
                     Profile
                   </a>
                   <hr />

@@ -1,4 +1,4 @@
-import Home from '@/app/(main)/home/page'
+import Home from '@/app/(main)/home/animeList/page'
 
 export default function Main() {
   return (
