@@ -10,6 +10,6 @@ router.get("/season/2024/fall", getSeasonFall);
 router.get("/season/2024/spring", getSeasonSpring);
 router.get("/season/upcoming", getUpcoming);
 router.get("/season/2024/:searchquery", getAnimeSearch);
-router.get("/season/:id", getAnimeDetail);
+router.get("/:id", getAnimeDetail);
 
 module.exports = router;

@@ -43,7 +43,7 @@ export function AnimeSeasonSummer(){
       <div className="relative w-full overflow-hidden">
         {/* ปุ่มเลื่อนซ้าย */}
         <button onClick={handlePrev}
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 btn btn-circle z-10 rounded-3xl p-3 bg-gray-800 opacity-[85%] text-white">
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 btn btn-circle z-10 rounded-3xl p-3 bg-gray-500 opacity-[70%] hover:bg-gray-600 text-white">
           ❮
         </button>
 
@@ -69,7 +69,7 @@ export function AnimeSeasonSummer(){
 
         {/* ปุ่มเลื่อนขวา */}
         <button onClick={handleNext}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 btn btn-circle rounded-3xl z-10 p-3 bg-gray-800 opacity-[85%] text-white">
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 btn btn-circle rounded-3xl z-10 p-3 bg-gray-500 opacity-[70%] hover:bg-gray-600 text-white">
           ❯
         </button>
       </div>
