@@ -47,8 +47,8 @@ export default function OtherUserProfileInfo() {
         </div>
         <div className='pt-4 lg:px-24 w-full'>
           <p className='font-bold text-2xl'>{user.nickname ? user.nickname : user.username}</p>
-          <p className='text-xl'>{user.username}</p>
-          <p className='text-xl'>{user.email}</p>
+          <p className='text-xl text-gray-400'>{user.username}</p>
+          <p className='text-xl text-gray-400'>{user.email}</p>
           {user.about ?
             <p className='border-solid border-2 p-2 rounded-lg bg-gray-200 min-h-24 mt-4 text-base'>{user.about || ''}</p>
             : ""
