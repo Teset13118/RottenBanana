@@ -1,5 +1,5 @@
-import AnimeInfo from '@/app/components/animeDetail.tsx/animeInfo';
-import Reviews from '@/app/components/animeDetail.tsx/review/review';
+import AnimeInfo from '@/app/components/animeDetail/animeInfo';
+import Reviews from '@/app/components/animeDetail/review/review';
 
 
 export default function Info() {
