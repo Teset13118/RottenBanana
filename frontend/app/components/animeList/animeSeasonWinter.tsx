@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { Anime } from '@/types/type';
 import { FetchAnimeListSeasonNow, FetchAnimeSeasonWinter, FetchAnimeSeasonFall, FetchAnimeSeasonSummer, FetchAnimeUpComing, FetchAnimeSeasonSpring } from '@/app/api/animeApi';
-import { AnimeCard } from "@/app/components/animeCard";
+import { AnimeCard } from "@/app/components/animeList/animeCard";
 
 //winter season
 export function AnimeSeasonWinter(){
