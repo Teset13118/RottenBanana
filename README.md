@@ -104,3 +104,25 @@
 | POST   | `/postReview`         | แสดงความคิดเห็น |
 | PUT    | `/updateReview/:id`   | แก้ไขความคิดเห็น |
 | DELETE | `/deleteReview/:id`   | ลบความคิดเห็น |
+
+
+## หน้าแรก
+![image](frontend\public\bananaScore\หน้าแรก.png)
+
+## หน้ารายละเอียดอนิเมะ
+![image](frontend\public\bananaScore\หน้ารายละเอียดอนิเมะ.png)
+
+## หน้าส่วนรีวิวอนิเมะ
+![image](frontend\public\bananaScore\หน้าส่วนรีวิวอนิเมะ.png)
+
+## หน้าโปรไฟล์
+![image](frontend\public\bananaScore\หน้าโปรไฟล์.png)
+
+## ส่วน search
+![image](frontend\public\bananaScore\ส่วนsearch.png)
+
+## หน้า login
+![image](frontend\public\bananaScore\หน้าlogin.png)
+
+## หน้า register
+![image](frontend\public\bananaScore\หน้าregister.png)
