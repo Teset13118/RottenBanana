@@ -15,6 +15,7 @@ export async function FetchAnimeListSeasonNow(){
 };
 
 export async function FetchAnimeSeasonWinter(){
+  await delay(1000);
   try {
     const res = await axios.get("http://localhost:8080/api/anime/season/2024/winter");
     return res.data;
@@ -26,6 +27,7 @@ export async function FetchAnimeSeasonWinter(){
 
 
 export async function FetchAnimeSeasonSpring(){
+  await delay(1500);
   try {
     const res = await axios.get("http://localhost:8080/api/anime/season/2024/spring");
     return res.data;
