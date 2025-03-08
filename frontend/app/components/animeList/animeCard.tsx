@@ -1,6 +1,6 @@
 export const AnimeCard = ({ title, imageUrl, onClick }: { title: string; imageUrl: string; onClick: () => void }) => {
     return (
-      <div onClick={onClick} style={{ cursor: "pointer", marginBottom: "10px" }} className="w-[250px] m-5">
+      <div onClick={onClick} style={{ cursor: "pointer", marginBottom: "10px" }} className="lg:w-[250px] lg:mx-[20] mx-[37] w-[300px]">
         <img
           src={imageUrl}
           alt={title}

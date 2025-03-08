@@ -34,8 +34,8 @@ export default function Register () {
   };
 
   return (
-    <section className="text-gray-100 bg-gray-900 body-font min-h-screen flex justify-center items-center">
-      <div className="w-full max-w-md bg-gray-800 bg-opacity-75 rounded-lg p-8 shadow-lg">
+    <section className="text-gray-100 bg-gray-900 body-font min-h-screen flex justify-center items-center px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md sm:max-w-sm md:max-w-md lg:max-w-lg bg-gray-800 bg-opacity-75 rounded-lg p-6 sm:p-8 shadow-lg">
         <h2 className="text-white text-xl font-semibold text-center mb-5">Sign Up</h2>
         <form onSubmit={handleSubmit} className="flex flex-col">
           <div className="relative mb-4">

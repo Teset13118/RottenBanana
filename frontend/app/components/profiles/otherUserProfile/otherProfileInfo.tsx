@@ -37,12 +37,12 @@ export default function OtherUserProfileInfo() {
   
     return (
       <>
-        <div className='flex flex-col items-center'>
+        <div className='flex flex-col items-center bg-gray-900 text-white'>
           <div>
             <img
               src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
               alt="profilePic"
-              className="rounded-full size-72"
+              className="rounded-full size-72 border-4 border-white"
             />
           </div>
         </div>
@@ -51,7 +51,7 @@ export default function OtherUserProfileInfo() {
           <p className='text-xl text-gray-400'>{user.username}</p>
           <p className='text-xl text-gray-400'>{user.email}</p>
           {user.about ?
-            <p className='border-solid border-2 p-2 rounded-lg bg-gray-200 min-h-24 mt-4 text-base'>{user.about || ''}</p>
+            <p className='border-2 p-2 rounded-lg min-h-24 mt-4 text-base'>{user.about || ''}</p>
             : ""
           }
         </div>

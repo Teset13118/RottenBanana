@@ -67,7 +67,7 @@ export default function ProfileInfo() {
             <p className='text-xl text-gray-400'>{user.username}</p>
             <p className='text-xl text-gray-400'>{user.email}</p>
             {user.about ?
-              <p className=' border-2 p-2 rounded-lg min-h-24 mt-4 text-base'>{user.about || ''}</p>
+              <p className='border-2 p-2 rounded-lg min-h-24 mt-4 text-base'>{user.about || ''}</p>
               : ""
             }
             <div className='flex w-full justify-center'>

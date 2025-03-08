@@ -47,7 +47,7 @@ function ComboBox(){
 
 
   return (
-    <div className="relative w-[800px]">
+    <div className="relative w-full md:w-[800px]">
       <input
         type="text"
         className="w-full px-3 py-2 border-2 border-[#977810] rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#977810]"
@@ -117,16 +117,86 @@ export default function Navbar() {
   
   return (
     <header className="text-gray-800 bg-[#FEC81A] body-font z-10">
-      <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        <a className="flex title-font font-medium items-center text-[#E73D1D] mb-4 md:mb-0" href="/">
-          <span className="text-3xl font-bold mr-5 bg-gradient-to-r from-[#E73D1D] to-[#977810] text-transparent bg-clip-text hover:text-[#715f25] transition-colors duration-300">
-            Rotten Bananas
-          </span>
-        </a>
-        <div className="flex ml-10 items-center justify-center">
+      <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center justify-between">
+        <div className="w-full md:w-auto flex justify-between items-center mb-4 md:mb-0">
+          <a className="flex title-font font-medium items-center text-[#E73D1D] mb-4 md:mb-0" href="/">
+            <span className="text-3xl font-bold mr-5 bg-gradient-to-r from-[#E73D1D] to-[#977810] text-transparent bg-clip-text hover:text-[#715f25] transition-colors duration-300">
+              Rotten Bananas
+            </span>
+          </a>
+          <div className="flex md:hidden space-x-2">
+            {!isLoggedIn ? (
+              <>
+                <a className="px-4 py-2 bg-[#03BD70] text-white rounded-lg hover:bg-[#2b8560] transition-colors duration-300" href="/login">Login</a>
+                <a className="px-4 py-2 bg-[#366fac] text-white rounded-lg hover:bg-[#2a5688] transition-colors duration-300" href="/register">Register</a>
+              </>
+            ) : (
+              <div className="relative">
+              {/* รูปโปรไฟล์ */}
+              <button onClick={() => { setIsMainDropdown(!isMainDropdown); setIsThemeDropdown(false); }}
+                className="focus:outline-none"
+              >
+                <img
+                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                  alt="profilePic"
+                  className="rounded-full size-10 border-4 border-white hover:border-[#715f25]"
+                />
+              </button>
+
+              {/* Dropdown เมนูหลัก */}
+              {isMainDropdown && !isThemeDropdown && (
+                <div className="absolute right-[50px] mt-0 top-0 w-48 bg-gray-800 text-white shadow-lg rounded-lg overflow-hidden z-10">
+                  <a href="/profile/UserProfile" className="block px-4 py-2 hover:bg-gray-900">
+                    Profile
+                  </a>
+                  <hr />
+                  <button
+                    onClick={() => {
+                      setIsThemeDropdown(true);
+                      setIsMainDropdown(false);
+                    }}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-900 flex justify-between"
+                  >
+                    Theme <span>❯</span>
+                  </button>
+                  <hr />
+                  <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-red-700 text-white">
+                    Logout
+                  </button>
+                </div>
+              )}
+
+              {/* Dropdown Theme */}
+              {isThemeDropdown && (
+                <div className="absolute right-[50px] mt-0 top-0 w-48 bg-gray-800 text-white shadow-lg rounded-lg overflow-hidden z-10">
+                  <button
+                    onClick={() => {
+                      setIsThemeDropdown(false);
+                      setIsMainDropdown(true);
+                    }}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-900"
+                  >
+                    ❮
+                  </button>
+                  <button className="block w-full text-left px-4 py-2 hover:bg-gray-900">
+                    Dark
+                  </button>
+                  <button className="block w-full text-left px-4 py-2 hover:bg-gray-900">
+                    Light
+                  </button>
+                </div>
+              )}
+            </div>
+            )}
+            <>
+              {errorMessage && <div className="text-[#E73D1D]">{errorMessage}</div>}
+            </>
+          </div>
+        </div>
+        <div className="w-full md:w-auto flex justify-center mb-4 md:mb-0">
           <ComboBox />
         </div>
-        <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
+        <nav className="hidden md:ml-auto lg:flex flex-wrap items-center text-base justify-center">
           {!isLoggedIn ? (
             <>
               <>
@@ -194,8 +264,7 @@ export default function Navbar() {
           )}
           <>
             {errorMessage && <div className="text-[#E73D1D]">{errorMessage}</div>}
-          </>
-        </nav>
+          </>        </nav>
       </div>
     </header>
   );
