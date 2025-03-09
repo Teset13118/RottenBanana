@@ -47,7 +47,7 @@ function ComboBox(){
 
 
   return (
-    <div className="relative w-full md:w-[800px] z-10">
+    <div className="relative w-full md:w-[800px] z-5">
       <input
         type="text"
         className="w-full px-3 py-2 border-2 border-[#977810] rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#977810]"
@@ -150,7 +150,7 @@ export default function Navbar() {
                     Profile
                   </a>
                   <hr />
-                  <button
+                  {/* <button
                     onClick={() => {
                       setIsThemeDropdown(true);
                       setIsMainDropdown(false);
@@ -159,7 +159,7 @@ export default function Navbar() {
                   >
                     Theme <span>❯</span>
                   </button>
-                  <hr />
+                  <hr /> */}
                   <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-red-700 text-white">
                     Logout
                   </button>
@@ -167,7 +167,7 @@ export default function Navbar() {
               )}
 
               {/* Dropdown Theme */}
-              {isThemeDropdown && (
+              {/* {isThemeDropdown && (
                 <div className="absolute right-[50px] mt-0 top-0 w-48 bg-gray-800 text-white shadow-lg rounded-lg overflow-hidden z-10">
                   <button
                     onClick={() => {
@@ -185,7 +185,7 @@ export default function Navbar() {
                     Light
                   </button>
                 </div>
-              )}
+              )} */}
             </div>
             )}
             <>
@@ -224,7 +224,7 @@ export default function Navbar() {
                     Profile
                   </a>
                   <hr />
-                  <button
+                  {/* <button
                     onClick={() => {
                       setIsThemeDropdown(true);
                       setIsMainDropdown(false);
@@ -233,7 +233,7 @@ export default function Navbar() {
                   >
                     Theme <span>❯</span>
                   </button>
-                  <hr />
+                  <hr /> */}
                   <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-red-700 text-white">
                     Logout
                   </button>
