@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { Anime } from '@/types/type';
-import { FetchAnimeListSeasonNow, FetchAnimeSeasonWinter, FetchAnimeSeasonFall, FetchAnimeSeasonSummer, FetchAnimeUpComing, FetchAnimeSeasonSpring } from '@/app/api/animeApi';
-import { AnimeCard } from "@/app/components/animeList/animeCard";
+import { FetchAnimeListSeasonNow } from '@/app/api/animeApi';
 
 //slide anime season now
 export function AnimeThisSeason() {

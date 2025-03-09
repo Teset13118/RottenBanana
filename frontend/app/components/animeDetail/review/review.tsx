@@ -3,9 +3,9 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 import moment from "moment-timezone";
 
-import { Review} from '@/types/type';
+import { Review } from '@/types/type';
 import { fetchUserProfile } from '@/app/api/userApi';
-import { FetchReviewList, updateReview, deleteReview} from '@/app/api/reviewApi';
+import { FetchReviewList, updateReview, deleteReview } from '@/app/api/reviewApi';
 import { ReviewsSkeleton } from '@/app/components/skeletons/animeDetailSkeleton';
 import ReviewStatistics from './reviewStatistic';
 import PostReview from './postReview';
@@ -67,9 +67,12 @@ export default function Reviews() {
   };
 
   const handleDelete = async (reviewId: string) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this review?");
     try {
-      await deleteReview(reviewId);
-      fetchData()
+      if (confirmDelete) {
+        await deleteReview(reviewId);
+        fetchData()
+      }
     } catch (error) {
       console.error("Delete failed:", error);
     }
