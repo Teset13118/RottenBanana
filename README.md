@@ -13,7 +13,7 @@
 - Express.js – เฟรมเวิร์กสำหรับสร้าง API และจัดการเซิร์ฟเวอร์
 - JWT (JSON Web Token) – กลไกสำหรับยืนยันตัวตนและกำหนดสิทธิ์การเข้าถึง
 ## Database
-- MongoDB – เป็นฐานข้อมูล NoSQL ที่มีความยืดหยุ่นในการจัดการข้อมูล
+- MongoDB Atlas – บริการฐานข้อมูล NoSQL บน Cloud ที่ยืดหยุ่น ปลอดภัย และจัดการง่าย
 
 # Dependencies
 ## Frontend Dependencies
