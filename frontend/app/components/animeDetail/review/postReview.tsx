@@ -26,10 +26,13 @@ export default function PostReview({ hasReviewed, fetchData }: { hasReviewed: bo
       //เช็คว่า login ไหม
       setIsAuthenticated(!!sessionStorage.getItem("token"));
 
-      setAnimeTitle(sessionStorage.getItem("animeTitle") || "");
-      setAnimePic(sessionStorage.getItem("animePic") || "");
+      const timer = setTimeout(() => {
+        setAnimeTitle(sessionStorage.getItem("animeTitle") || "");
+        setAnimePic(sessionStorage.getItem("animePic") || "");
+      }, 1000); // หน่วงเวลา 1 วินาที
 
       setTimeout(() => setLoading(false), 800);
+      return () => clearTimeout(timer); // Cleanup timer ตอน Unmount
     }, []);
   
     const handleSubmit = async (event: React.FormEvent) => {
