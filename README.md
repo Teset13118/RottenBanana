@@ -14,6 +14,8 @@
 - JWT (JSON Web Token) – กลไกสำหรับยืนยันตัวตนและกำหนดสิทธิ์การเข้าถึง
 ## Database
 - MongoDB Atlas – บริการฐานข้อมูล NoSQL บน Cloud ที่ยืดหยุ่น ปลอดภัย และจัดการง่าย
+## API Integration
+- Jikan API – API ที่ใช้ในการดึงข้อมูลอนิเมะจาก MyAnimeList ถูกนำมาใช้ในโปรเจกต์นี้เพื่อให้ผู้ใช้สามารถค้นหาข้อมูลและรีวิวอนิเมะได้.
 
 # Dependencies
 ## Frontend Dependencies
