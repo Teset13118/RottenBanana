@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { Anime } from '@/types/type';
 import { FetchAnimeListSeasonNow } from '@/app/api/animeApi';
+import { AnimeCarouselThisSeasonSkeleton } from "../skeletons/animeSkeletion";
 
 //slide anime season now
 export function AnimeThisSeason() {
     const [animeList, setAnimeList] = useState<Anime[]>([]);
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
   
     const fetchData = async () => {
@@ -15,6 +17,8 @@ export function AnimeThisSeason() {
         setAnimeList(data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
     useEffect(() => {
@@ -24,6 +28,10 @@ export function AnimeThisSeason() {
     const handleClick = (id: number) => {
       router.push(`/home/animeDetail/${id}`);
     };
+
+    if (loading) {
+      return <AnimeCarouselThisSeasonSkeleton/>
+    }
   
     return (
       <div className="carousel carousel-center bg-neutral rounded-box flex-nowrap flex overflow-x-auto no-scrollbar">

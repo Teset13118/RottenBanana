@@ -4,13 +4,14 @@ import { useRouter } from 'next/navigation';
 import { Anime } from '@/types/type';
 import { FetchAnimeSeasonSpring } from '@/app/api/animeApi';
 import { AnimeCard } from "@/app/components/animeList/animeCard";
-
+import { AnimeCarouselSkeleton } from "../skeletons/animeSkeletion";
 
 //spring season
-export function AnimeSeasonSpring(){
+export function AnimeSeasonSpring() {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerSlide, setItemsPerSlide] = useState(5);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   const fetchData = async () => {
@@ -19,6 +20,8 @@ export function AnimeSeasonSpring(){
       setAnimeList(data);
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -44,7 +47,7 @@ export function AnimeSeasonSpring(){
   const handleClick = (id: number) => {
     router.push(`/home/animeDetail/${id}`);
   };
-  
+
 
   const handleNext = () => {
     if (animeList.length > 0) {
@@ -62,7 +65,7 @@ export function AnimeSeasonSpring(){
     <>
       <h1 className="text-xl sm:text-2xl font-bold mt-4 sm:mt-8 px-4 sm:px-7 mb-1 text-white mx-3 sm:mx-7 py-1 sm:py-2 bg-[#E73D1D] rounded-lg text-center">
         Season Spring
-      </h1><hr className="mx-3 sm:mx-7"/>
+      </h1><hr className="mx-3 sm:mx-7" />
       <div className="relative w-full overflow-hidden">
         {/* ปุ่มเลื่อนซ้าย */}
         <button onClick={handlePrev}
@@ -71,24 +74,28 @@ export function AnimeSeasonSpring(){
         </button>
 
         {/* Carousel */}
-        <div className="w-full overflow-hidden">
-          <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{
-              transform: `translateX(-${(currentIndex / itemsPerSlide) * 100}%)`, // เลื่อนทีละ 1 เรื่อง (5 เรื่อง = 100% / 5 = 20%)
-            }}
-          >
-            {animeList.concat(animeList).map((anime, index) => (
-              <div key={index} className="lg:w-1/5 flex-shrink-0 p-2">
-                <AnimeCard
-                  title={anime.title}
-                  imageUrl={anime.images.jpg.image_url}
-                  onClick={() => handleClick(anime.mal_id)}
-                />
-              </div>
-            ))}
+        {loading ? (
+          <AnimeCarouselSkeleton />
+        ) : (
+          <div className="w-full overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${(currentIndex / itemsPerSlide) * 100}%)`, // เลื่อนทีละ 1 เรื่อง (5 เรื่อง = 100% / 5 = 20%)
+              }}
+            >
+              {animeList.concat(animeList).map((anime, index) => (
+                <div key={index} className="lg:w-1/5 flex-shrink-0 p-2">
+                  <AnimeCard
+                    title={anime.title}
+                    imageUrl={anime.images.jpg.image_url}
+                    onClick={() => handleClick(anime.mal_id)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}:
 
         {/* ปุ่มเลื่อนขวา */}
         <button onClick={handleNext}
