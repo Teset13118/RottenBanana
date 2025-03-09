@@ -128,7 +128,7 @@
 
 
 ## หน้าแรก
-![image](frontend\public\bananaScore\หน้าแรก.png)
+![image]([frontend\public\bananaScore\หน้าแรก.png](https://github.com/Teset13118/RottenBanana/blob/main/readmepic/%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%A0%E0%B8%B2%E0%B8%9E1.png?raw=true))
 
 ## หน้ารายละเอียดอนิเมะ
 ![image](frontend\public\bananaScore\หน้ารายละเอียดอนิเมะ.png)
