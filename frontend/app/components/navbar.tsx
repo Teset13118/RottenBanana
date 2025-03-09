@@ -47,7 +47,7 @@ function ComboBox(){
 
 
   return (
-    <div className="relative w-full md:w-[800px] z-5">
+    <div className="relative w-full md:w-[800px] z-10">
       <input
         type="text"
         className="w-full px-3 py-2 border-2 border-[#977810] rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#977810]"
