@@ -8,19 +8,27 @@ import { PostReviewSkeleton} from '@/app/components/skeletons/animeDetailSkeleto
 //input สำหรับ review และ ให้คะแนน
 export default function PostReview({ hasReviewed, fetchData }: { hasReviewed: boolean; fetchData: () => void; }) {
     const { id: animeId } = useParams() as { id: string };
+
+    // review
     const [text, setText] = useState<string>("");
     const [score, setScore] = useState<number>(0);
     const [errorMessage, setErrorMessage] = useState<string>("");
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+    // ข้อมูลเพิ่มเติมที่จะเก็บ
     const [animeTitle, setAnimeTitle] = useState<string>("");
     const [animePic, setAnimePic] = useState<string>("");
+
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [scoreError, setScoreError] = useState<string>("");
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
+      //เช็คว่า login ไหม
       setIsAuthenticated(!!sessionStorage.getItem("token"));
+
       setAnimeTitle(sessionStorage.getItem("animeTitle") || "");
       setAnimePic(sessionStorage.getItem("animePic") || "");
+
       setTimeout(() => setLoading(false), 800);
     }, []);
   

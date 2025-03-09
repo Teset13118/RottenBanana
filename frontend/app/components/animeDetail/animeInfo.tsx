@@ -34,6 +34,7 @@ export default function AnimeInfo() {
   if (loading) {
     return <AnimeInfoSkeleton />;
   }
+  // ถ้าไม่มีข้อมูลอนิเมะ
   if (!anime) {
     return <p className="text-center">Failed to load anime details. Please try again.</p>;
   }
