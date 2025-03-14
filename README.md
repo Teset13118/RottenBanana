@@ -70,7 +70,7 @@
    ```text
    PORT=8080
    MONGO_URL= mongodb+srv://Phum:TtpwgjO9MIl5aWZ3@database.esstt.mongodb.net/bananadb?retryWrites=true&w=majority&appName=Database
-   JWT_SECRET=your_secret_key_here
+   JWT_SECRET= 6c804b50d86cdf1e2355ddd15684a5cd44c5e82b920e882031fc0efe906b80c82f5223328259f6eb1997cca69781b449368c0eeb98d149dcb14d2cabb28c1262
    ```
    - **PORT**: กำหนดพอร์ตที่เซิร์ฟเวอร์จะรัน
    - **MONGO_URL**: URL สำหรับเชื่อมต่อ MongoDB Atlas
