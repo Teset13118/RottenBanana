@@ -117,7 +117,7 @@ export default function Navbar() {
   return (
     <header className="text-gray-800 bg-[#FEC81A] body-font z-10">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center justify-between">
-        <div className="w-full md:w-full flex justify-between items-center mb-4 md:mb-0">
+        <div className="w-full md:w-auto flex justify-between items-center mb-4 md:mb-0">
           <a className="flex title-font font-medium items-center text-[#E73D1D] mb-4 md:mb-0" href="/">
             <span className="text-3xl font-bold mr-5 bg-gradient-to-r from-[#E73D1D] to-[#977810] text-transparent bg-clip-text hover:text-[#715f25] transition-colors duration-300">
               Rotten Bananas
