@@ -66,7 +66,7 @@ export default function AnimeInfo() {
   
           {/* YouTube Trailer */}
           <div className="col-span-1 md:col-span-2 lg:col-span-2 md:col-start-3 lg:col-start-5 md:row-span-3 lg:row-span-2 h-full">
-            <div className="relative w-full h-full min-h-[200px]">
+            <div className="relative w-full h-full min-h-[200px] z-1">
               {anime.trailer?.embed_url ? (
                 <iframe
                   src={anime.trailer.embed_url}
